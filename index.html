@@ -1,0 +1,1518 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NIVVO v1.0</title>
+<style>
+:root{
+  --bg:#0b1020;
+  --surface:#11182a;
+  --surface-2:#172036;
+  --surface-3:#1d2944;
+  --line:rgba(255,255,255,.09);
+  --text:#f7f9fc;
+  --muted:#9aa6bd;
+  --accent:#7c9cff;
+  --accent-2:#8ef0c7;
+  --danger:#ff9c9c;
+  --shadow:0 18px 55px rgba(0,0,0,.28);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  background:
+    radial-gradient(circle at 15% 0%, rgba(124,156,255,.18), transparent 30%),
+    radial-gradient(circle at 95% 8%, rgba(142,240,199,.10), transparent 24%),
+    var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
+.shell{max-width:920px;margin:auto;padding:22px 18px 70px}
+.top{
+  display:flex;justify-content:space-between;align-items:center;gap:14px;
+  margin:8px 0 20px;
+}
+.brand-wrap{display:flex;align-items:center;gap:12px}
+.logo{
+  width:46px;height:46px;border-radius:15px;
+  display:grid;place-items:center;font-weight:900;letter-spacing:-1px;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  color:#07101d;box-shadow:0 10px 30px rgba(124,156,255,.22);
+}
+h1{font-size:29px;line-height:1;margin:0;letter-spacing:-.8px}
+h2{font-size:20px;margin:0 0 10px;letter-spacing:-.3px}
+p{color:var(--muted);line-height:1.55;margin:8px 0 16px}
+.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:var(--accent-2);font-weight:800;margin-bottom:5px}
+.card{
+  background:linear-gradient(180deg,rgba(23,32,54,.97),rgba(17,24,42,.97));
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:22px;
+  margin-bottom:16px;
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(10px);
+}
+.card::before{content:"";display:block;height:2px;width:64px;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-2));margin-bottom:16px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.field{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.055);border-radius:16px;padding:11px}
+label{display:block;font-size:12px;color:var(--muted);margin:0 0 6px;font-weight:700;letter-spacing:.01em}
+input,select{
+  width:100%;padding:12px 13px;
+  color:var(--text);background:var(--surface);
+  border:1px solid rgba(255,255,255,.10);border-radius:12px;
+  outline:none;font-size:15px;
+}
+input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,156,255,.12)}
+select option{background:#11182a;color:#fff}
+button{
+  padding:12px 16px;border:0;border-radius:14px;font-weight:800;cursor:pointer;
+  transition:transform .15s ease,opacity .15s ease,box-shadow .15s ease;
+  font-size:14px;
+}
+button:active{transform:scale(.98)}
+.primary{
+  background:linear-gradient(135deg,var(--accent),#9aaeff);
+  color:#08101f;box-shadow:0 10px 24px rgba(124,156,255,.18)
+}
+.ghost{background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--text)}
+.hidden{display:none!important}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.exercise{
+  display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;
+  padding:15px 0;border-bottom:1px solid var(--line)
+}
+.exercise:last-child{border-bottom:0}
+.exercise b{font-size:15px}
+.small{font-size:12.5px;color:var(--muted);line-height:1.4}
+.pill{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:11px;padding:6px 9px;border:1px solid var(--line);
+  border-radius:999px;background:rgba(255,255,255,.04);color:#dbe4f5;
+  font-weight:700
+}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+.stats>div{
+  padding:14px;border:1px solid var(--line);border-radius:16px;
+  background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.018))
+}
+.stats b{font-size:21px;display:block;margin-top:3px}
+.note{
+  padding:13px 14px;border-radius:15px;
+  background:rgba(124,156,255,.08);
+  border:1px solid rgba(124,156,255,.18);
+  font-size:13.5px;color:#dfe6f6;line-height:1.5
+}
+.hero{
+  display:grid;grid-template-columns:1.3fr .7fr;gap:14px;margin-bottom:16px
+}
+.hero-main{
+  padding:22px;border-radius:24px;
+  background:
+   linear-gradient(135deg,rgba(124,156,255,.16),rgba(142,240,199,.07)),
+   var(--surface);
+  border:1px solid var(--line)
+}
+.hero-side{
+  padding:18px;border-radius:24px;background:var(--surface);border:1px solid var(--line);
+  display:flex;flex-direction:column;justify-content:space-between
+}
+.hero-title{font-size:31px;font-weight:900;line-height:1.02;letter-spacing:-1.1px;margin:4px 0 10px}
+.hero-copy{color:var(--muted);max-width:560px;line-height:1.5}
+.metric{font-size:30px;font-weight:900}
+.metric-label{font-size:12px;color:var(--muted);margin-top:3px}
+.section-label{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:4px}
+.progress{
+  height:7px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden;margin:10px 0 0
+}
+.progress span{display:block;height:100%;width:42%;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+.footer-note{text-align:center;color:#6f7b93;font-size:11.5px;margin-top:24px}
+@media(max-width:700px){
+  .grid,.stats,.hero{grid-template-columns:1fr}
+  .shell{padding:14px 12px 54px}
+  .top{align-items:flex-start}
+  .hero-title{font-size:26px}
+  .card{padding:17px;border-radius:20px}
+  button{width:100%}
+  .row{flex-direction:column}
+}
+
+.welcome-card{
+  min-height:58vh;display:flex;flex-direction:column;justify-content:center;
+  padding:30px;border-radius:28px;
+  background:
+    radial-gradient(circle at 80% 10%, rgba(142,240,199,.13), transparent 26%),
+    linear-gradient(145deg,rgba(124,156,255,.16),rgba(17,24,42,.98));
+  border:1px solid var(--line);box-shadow:var(--shadow)
+}
+.welcome-title{font-size:42px;line-height:1.02;letter-spacing:-1.5px;margin:8px 0 14px;font-weight:900}
+.welcome-copy{max-width:650px;color:#b8c2d6;line-height:1.55;font-size:16px}
+.auth-stack{display:grid;gap:10px;margin-top:16px}
+.social-btn{
+  width:100%;display:flex;align-items:center;justify-content:center;gap:10px;
+  padding:13px 16px;border-radius:14px;font-weight:800;background:#fff;color:#111827
+}
+.social-btn.fb{background:#1877f2;color:#fff}
+.social-icon{width:23px;height:23px;border-radius:7px;display:grid;place-items:center;font-weight:900}
+.divider{display:flex;align-items:center;gap:10px;color:#748097;font-size:12px;margin:14px 0}
+.divider:before,.divider:after{content:"";height:1px;background:var(--line);flex:1}
+.auth-note{font-size:12px;color:#8490a7;line-height:1.45;margin-top:12px}
+.account-box{padding:13px 14px;border:1px solid var(--line);border-radius:15px;background:rgba(255,255,255,.03);margin-bottom:12px}
+
+
+.onboard{
+  min-height:62vh;display:flex;flex-direction:column;justify-content:center;
+  padding:28px;border-radius:28px;border:1px solid var(--line);box-shadow:var(--shadow);
+  background:
+    radial-gradient(circle at 90% 12%, rgba(142,240,199,.13), transparent 26%),
+    linear-gradient(145deg,rgba(124,156,255,.12),rgba(17,24,42,.98));
+}
+.onboard h2{font-size:32px;line-height:1.05;margin:6px 0 10px;letter-spacing:-.8px}
+.onboard-copy{font-size:16px;color:#b7c1d5;line-height:1.55;max-width:680px}
+.feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:18px}
+.feature-card{
+  padding:16px;border:1px solid var(--line);border-radius:18px;
+  background:rgba(255,255,255,.035)
+}
+.feature-card .icon{font-size:24px;margin-bottom:8px}
+.feature-card b{display:block;margin-bottom:4px}
+.feature-card span{font-size:13px;color:var(--muted);line-height:1.45}
+.price-card{
+  margin-top:18px;padding:20px;border-radius:20px;
+  border:1px solid rgba(142,240,199,.24);
+  background:linear-gradient(145deg,rgba(142,240,199,.09),rgba(124,156,255,.06))
+}
+.price-row{display:flex;justify-content:space-between;gap:12px;align-items:flex-end;flex-wrap:wrap}
+.price{font-size:34px;font-weight:900;letter-spacing:-1px}
+.price small{font-size:13px;color:var(--muted);font-weight:600}
+.checks{display:grid;gap:8px;margin:14px 0}
+.check{font-size:14px;color:#dbe6f6}
+.check:before{content:"✓";color:var(--accent-2);font-weight:900;margin-right:8px}
+.step-dots{display:flex;gap:7px;margin:18px 0 4px}
+.step-dots span{width:8px;height:8px;border-radius:99px;background:rgba(255,255,255,.14)}
+.step-dots span.active{width:24px;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+.home-cover{
+  padding:24px;border-radius:28px;border:1px solid var(--line);box-shadow:var(--shadow);
+  background:
+    radial-gradient(circle at 85% 0%, rgba(124,156,255,.18), transparent 25%),
+    radial-gradient(circle at 0% 90%, rgba(142,240,199,.10), transparent 25%),
+    linear-gradient(180deg,#151e34,#101727);
+}
+.home-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.home-title{font-size:30px;font-weight:900;letter-spacing:-1px;line-height:1.04;margin:12px 0 7px}
+.home-sub{color:var(--muted);line-height:1.45}
+.home-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:18px}
+.home-card{
+  padding:16px;border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,.035)
+}
+.home-card strong{display:block;margin-top:8px}
+.home-card span{display:block;color:var(--muted);font-size:13px;margin-top:4px}
+.home-card .icon{font-size:23px}
+@media(max-width:700px){
+  .feature-grid,.home-actions{grid-template-columns:1fr}
+  .onboard{padding:20px}
+  .onboard h2{font-size:28px}
+}
+
+
+.ab-wrap{display:grid;gap:14px}
+.ab-choice{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ab-card{
+  padding:18px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.035);
+  cursor:pointer;transition:.15s ease
+}
+.ab-card:hover{transform:translateY(-1px);border-color:rgba(124,156,255,.35)}
+.ab-card.active{border-color:var(--accent);background:rgba(124,156,255,.08)}
+.ab-card b{display:block;margin-bottom:5px}
+.question-shell{
+  min-height:50vh;display:flex;flex-direction:column;justify-content:center;
+  padding:22px;border:1px solid var(--line);border-radius:22px;background:rgba(255,255,255,.025)
+}
+.q-title{font-size:28px;line-height:1.08;letter-spacing:-.7px;margin:6px 0 14px;font-weight:900}
+.q-help{color:var(--muted);font-size:14px;margin-bottom:16px}
+.choice-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.choice-btn{
+  width:100%;text-align:left;padding:14px;border:1px solid var(--line);border-radius:14px;
+  background:rgba(255,255,255,.03);color:var(--text)
+}
+.choice-btn.selected{border-color:var(--accent);background:rgba(124,156,255,.10)}
+.stepbar{height:7px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden;margin:12px 0 18px}
+.stepbar span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));width:12%}
+.block-step{display:none}
+.block-step.active{display:block}
+.review-box{display:grid;gap:8px;margin:12px 0}
+.review-row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.review-row span{color:var(--muted)}
+@media(max-width:700px){.ab-choice,.choice-grid{grid-template-columns:1fr}}
+
+
+.equip-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.equip-option{display:flex;align-items:center;gap:10px;padding:13px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.03)}
+.equip-option input{width:auto}
+.ready-hero{padding:24px;border-radius:24px;border:1px solid var(--line);background:linear-gradient(145deg,rgba(124,156,255,.12),rgba(142,240,199,.06))}
+.ready-title{font-size:31px;font-weight:900;letter-spacing:-1px;line-height:1.05;margin:7px 0}
+.summary-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:16px}
+.summary-card{padding:14px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.035)}
+.plan-strip{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:14px;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.025)}
+.ad-preview{margin-top:14px;padding:12px;border:1px dashed rgba(255,255,255,.18);border-radius:14px;text-align:center;color:#77839b;font-size:12px}
+@media(max-width:700px){.equip-grid,.summary-grid{grid-template-columns:1fr}}
+
+
+.support-list{display:grid;gap:10px;margin-top:14px}
+.support-item{padding:14px;border:1px solid var(--line);border-radius:15px;background:rgba(255,255,255,.03)}
+.support-item b{display:block;margin-bottom:4px}
+.support-item span{font-size:13px;color:var(--muted);line-height:1.45}
+.issue-box{display:grid;gap:10px;margin-top:14px}
+textarea{width:100%;min-height:120px;padding:12px 13px;color:var(--text);background:var(--surface);border:1px solid rgba(255,255,255,.10);border-radius:12px;resize:vertical;font:inherit}
+
+
+.brand-mark{font-size:30px;font-weight:950;letter-spacing:-1.5px}
+.brand-tag{font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.daily-hero{padding:20px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(145deg,rgba(124,156,255,.12),rgba(142,240,199,.06));margin-bottom:14px}
+.daily-title{font-size:28px;font-weight:900;line-height:1.05;letter-spacing:-.8px;margin:6px 0}
+.daily-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.metric-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.metric-box{padding:13px;border:1px solid var(--line);border-radius:15px;background:rgba(255,255,255,.03)}
+.metric-box b{font-size:20px;display:block}
+.set-table{width:100%;border-collapse:collapse;margin-top:10px}
+.set-table th,.set-table td{padding:9px 6px;border-bottom:1px solid var(--line);text-align:left;font-size:13px}
+.set-table th{color:var(--muted);font-weight:700}
+.set-table input{max-width:90px;padding:9px}
+.exercise-card{padding:16px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.025);margin-bottom:12px}
+.exercise-card h3{margin:0 0 4px;font-size:17px}
+.exercise-card .ex-meta{font-size:12px;color:var(--muted)}
+.history-list{display:grid;gap:10px}
+.history-item{padding:14px;border:1px solid var(--line);border-radius:15px;background:rgba(255,255,255,.025)}
+.history-item b{display:block;margin-bottom:4px}
+.progress-good{color:var(--accent-2)}
+.progress-hold{color:#facc15}
+.progress-down{color:#fca5a5}
+.nav-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.nav-tabs button{flex:1;min-width:120px}
+@media(max-width:700px){.metric-row{grid-template-columns:1fr}}
+
+</style>
+</head>
+<body>
+<div class="shell">
+<div class="top">
+      <div class="brand-wrap">
+        <div class="logo">N</div>
+        <div><div class="brand-tag">S.O.L. Produtos & Automação</div><div class="brand-mark">NIVVO</div></div>
+      </div>
+      <span class="pill" id="savedBadge">novo perfil</span>
+    </div>
+
+<section id="welcome" class="welcome-card">
+  <div class="eyebrow">S.O.L. Produtos & Automação</div>
+  <div class="welcome-title">Seu treino.<br>Do seu jeito.</div>
+  <div class="welcome-copy">
+    Um treino que leva em conta sua rotina, preferências, experiência e evolução — sem ficha genérica e sem complicação.
+  </div>
+  <div class="row" style="margin-top:22px">
+    <button class="primary" onclick="showLogin()">Continuar</button>
+  </div>
+  <div class="auth-note">NIVVO v1.0 interna • esta etapa apresenta o fluxo de entrada antes do questionário.</div>
+</section>
+
+
+<section id="login" class="card hidden">
+  <div class="section-label">
+    <div>
+      <div class="eyebrow">Sua conta</div>
+      <h2>Entre para continuar</h2>
+    </div>
+    <span class="pill">acesso seguro</span>
+  </div>
+  <p>Entre com uma conta para recuperar seu perfil, seus treinos e sua evolução em outro aparelho.</p>
+
+  <div class="auth-stack">
+    <button class="social-btn" onclick="demoLogin('Google')"><span class="social-icon">G</span>Continuar com Google</button>
+    <button class="social-btn fb" onclick="demoLogin('Facebook')"><span class="social-icon">f</span>Continuar com Facebook</button>
+  </div>
+
+  <div class="divider">ou</div>
+
+  <div class="grid">
+    <div class="field">
+      <label>E-mail</label>
+      <input id="loginEmail" type="email" placeholder="seuemail@exemplo.com">
+    </div>
+    <div class="field">
+      <label>Senha</label>
+      <input id="loginPassword" type="password" placeholder="Sua senha">
+    </div>
+  </div>
+
+  <div class="row" style="margin-top:12px">
+    <button class="primary" onclick="emailPasswordLogin()">Entrar com e-mail</button>
+    <button class="ghost" onclick="showForgot()">Esqueci minha senha</button>
+  </div>
+
+  <div class="divider">ou</div>
+
+  <div class="field">
+    <label>Celular</label>
+    <input id="loginPhone" type="tel" placeholder="(13) 99999-9999">
+  </div>
+  <div class="row" style="margin-top:12px">
+    <button class="ghost" onclick="phoneLogin()">Continuar com celular</button>
+  </div>
+
+  <div class="account-box" style="margin-top:16px">
+    <div class="small">Ainda não tem uma conta?</div>
+    <b>Crie seu cadastro em poucos passos.</b>
+    <div class="row" style="margin-top:10px">
+      <button class="primary" onclick="showSignup()">Criar conta</button>
+      <button class="ghost" onclick="guestMode()">Testar sem conta</button>
+    </div>
+  </div>
+
+  <div class="auth-note">
+    Nesta versão os acessos ainda são demonstrativos. A sincronização real entra quando conectarmos autenticação e banco de dados.
+  </div>
+</section>
+
+<section id="signup" class="card hidden">
+  <div class="eyebrow">Novo cadastro</div>
+  <h2>Crie sua conta</h2>
+  <p>Você poderá usar esta conta para manter seu histórico sincronizado entre dispositivos.</p>
+
+  <div class="grid">
+    <div class="field">
+      <label>Nome</label>
+      <input id="signupName" placeholder="Como quer ser chamado?">
+    </div>
+    <div class="field">
+      <label>Celular</label>
+      <input id="signupPhone" type="tel" placeholder="(13) 99999-9999">
+    </div>
+    <div class="field">
+      <label>E-mail</label>
+      <input id="signupEmail" type="email" placeholder="seuemail@exemplo.com">
+    </div>
+    <div class="field">
+      <label>Criar senha</label>
+      <input id="signupPassword" type="password" placeholder="Crie uma senha">
+    </div>
+    <div class="field">
+      <label>Confirmar senha</label>
+      <input id="signupPassword2" type="password" placeholder="Repita a senha">
+    </div>
+  </div>
+
+  <div class="row" style="margin-top:14px">
+    <button class="primary" onclick="createAccount()">Criar minha conta</button>
+    <button class="ghost" onclick="backToLogin()">Já tenho conta</button>
+  </div>
+
+  <div class="auth-note">
+    O cadastro real depois poderá confirmar o e-mail ou o celular antes de liberar a conta.
+  </div>
+</section>
+
+<section id="forgot" class="card hidden">
+  <div class="eyebrow">Recuperação de acesso</div>
+  <h2>Esqueceu sua senha?</h2>
+  <p>Informe seu e-mail ou celular. Na versão real, enviaremos um link ou código para você recuperar o acesso.</p>
+
+  <div class="grid">
+    <div class="field">
+      <label>E-mail</label>
+      <input id="forgotEmail" type="email" placeholder="seuemail@exemplo.com">
+    </div>
+    <div class="field">
+      <label>Ou celular</label>
+      <input id="forgotPhone" type="tel" placeholder="(13) 99999-9999">
+    </div>
+  </div>
+
+  <div class="row" style="margin-top:14px">
+    <button class="primary" onclick="recoverAccess()">Recuperar acesso</button>
+    <button class="ghost" onclick="backToLogin()">Voltar</button>
+  </div>
+</section>
+
+
+
+
+<section id="onboard1" class="onboard hidden">
+  <div class="eyebrow">Bem-vindo ao NIVVO</div>
+  <h2>Um treino que aprende com você.</h2>
+  <div class="onboard-copy">
+    Você informa sua rotina, objetivo e preferências. O sistema monta sua semana, acompanha seu feedback e ajusta as próximas sessões sem transformar treino em planilha.
+  </div>
+  <div class="feature-grid">
+    <div class="feature-card"><div class="icon">⚙️</div><b>Treino automático</b><span>Montado de acordo com seu objetivo, experiência, tempo e equipamentos.</span></div>
+    <div class="feature-card"><div class="icon">🔁</div><b>Trocas inteligentes</b><span>Equipamento ocupado ou exercício que você não curte? O motor busca uma alternativa compatível.</span></div>
+  </div>
+  <div class="step-dots"><span class="active"></span><span></span><span></span></div>
+  <div class="row" style="margin-top:16px"><button class="primary" onclick="showOnboarding(2)">Continuar</button></div>
+</section>
+
+<section id="onboard2" class="onboard hidden">
+  <div class="eyebrow">Como funciona</div>
+  <h2>Menos complicação. Mais continuidade.</h2>
+  <div class="feature-grid">
+    <div class="feature-card"><div class="icon">🎯</div><b>Objetivo claro</b><span>Hipertrofia, força ou condicionamento sem montar tudo do zero.</span></div>
+    <div class="feature-card"><div class="icon">🧠</div><b>Aprende com o uso</b><span>Dificuldade, preferências e desconfortos influenciam os próximos treinos.</span></div>
+    <div class="feature-card"><div class="icon">⏱️</div><b>Se adapta à rotina</b><span>30, 45 ou 60 minutos: o treino respeita o tempo disponível.</span></div>
+    <div class="feature-card"><div class="icon">📈</div><b>Progressão</b><span>O sistema acompanha sua resposta e evita aumentar o desafio de forma aleatória.</span></div>
+  </div>
+  <div class="step-dots"><span></span><span class="active"></span><span></span></div>
+  <div class="row" style="margin-top:16px">
+    <button class="primary" onclick="showOnboarding(3)">Conhecer o Plus</button>
+    <button class="ghost" onclick="showOnboarding(1)">Voltar</button>
+  </div>
+</section>
+
+<section id="onboard3" class="onboard hidden">
+  <div class="eyebrow">Plano Plus</div>
+  <h2>Mais adaptação quando você precisa.</h2>
+  <div class="onboard-copy">
+    O Plus usa as mesmas bases do treino normal, mas leva em conta regiões que costumam incomodar, exercícios que você evita e seu histórico de tolerância para ajustar melhor as escolhas.
+  </div>
+
+  <div class="price-card">
+    <div class="price-row">
+      <div>
+        <div class="small">Preço de teste sugerido</div>
+        <div class="price">R$ 29,90 <small>/ mês</small></div>
+      </div>
+      <span class="pill">cancelamento simples</span>
+    </div>
+    <div class="checks">
+      <div class="check">Adaptações por desconfortos informados</div>
+      <div class="check">Memória de exercícios que incomodaram</div>
+      <div class="check">Substituições com prioridade personalizada</div>
+      <div class="check">Acompanhamento mais refinado da resposta ao treino</div>
+    </div>
+    <div class="small">O valor é provisório nesta fase e será validado antes de qualquer cobrança real.</div>
+  </div>
+
+  <div class="step-dots"><span></span><span></span><span class="active"></span></div>
+  <div class="row" style="margin-top:16px">
+    <button class="primary" onclick="finishOnboarding('plus')">Quero conhecer o Plus</button>
+    <button class="ghost" onclick="finishOnboarding('base')">Continuar no Base</button>
+  </div>
+</section>
+
+<section id="home" class="home-cover hidden">
+  <div class="home-head">
+    <div>
+      <div class="eyebrow">NIVVO</div>
+      <div class="small">Seu espaço de treino</div>
+    </div>
+    <span class="pill" id="homePlanBadge">Base</span>
+  </div>
+  <div class="home-title">Vamos montar seu treino?</div>
+  <div class="home-sub">Primeiro, preciso conhecer um pouco da sua rotina e do jeito que você gosta de treinar.</div>
+
+  <div class="home-actions">
+    <div class="home-card">
+      <div class="icon">👤</div>
+      <strong>Criar meu perfil</strong>
+      <span>Leva poucos minutos e já serve de base para sua primeira semana.</span>
+      <div style="margin-top:12px"><button class="primary" onclick="startProfileChoice()">Começar</button></div>
+    </div>
+    <div class="home-card">
+      <div class="icon">🛟</div>
+      <strong>Ajuda e SAC</strong>
+      <span>Encontrou um erro ou quer sugerir uma melhoria? Fale com a gente.</span>
+      <div style="margin-top:12px"><button class="ghost" onclick="showSupport()">Abrir suporte</button></div>
+    </div>
+    <div class="home-card">
+      <div class="icon">✨</div>
+      <strong>Plano Plus</strong>
+      <span>Adaptações extras para preferências, desconfortos e histórico.</span>
+      <div style="margin-top:12px"><button class="ghost" onclick="showOnboarding(3)">Ver detalhes</button></div>
+    </div>
+  </div>
+</section>
+
+
+<section id="support" class="card hidden">
+  <div class="eyebrow">Ajuda & SAC</div>
+  <h2>Encontrou algo estranho?</h2>
+  <p>Relatos de usuários ajudam a melhorar o app. Nesta fase, o canal abaixo é demonstrativo até definirmos o domínio oficial.</p>
+  <div class="support-list">
+    <div class="support-item"><b>E-mail de suporte</b><span>Formato sugerido: suporte@seudominio.com.br</span></div>
+    <div class="support-item"><b>O que vale relatar</b><span>Travamento, treino incoerente, exercício incompatível com equipamento, erro de cadastro, cobrança ou qualquer comportamento estranho.</span></div>
+  </div>
+  <div class="issue-box">
+    <div class="field"><label>Assunto</label><select id="supportTopic"><option>Erro / bug</option><option>Treino incoerente</option><option>Conta / acesso</option><option>Pagamento / Plus</option><option>Sugestão</option></select></div>
+    <div class="field"><label>Conte o que aconteceu</label><textarea id="supportMessage" placeholder="Ex.: marquei treino em casa e apareceu um exercício de máquina..."></textarea></div>
+  </div>
+  <div class="row" style="margin-top:14px"><button class="primary" onclick="sendSupportDemo()">Enviar relato</button><button class="ghost" onclick="showHome()">Voltar</button></div>
+</section>
+
+<section id="dailyHome" class="card hidden">
+  <div class="daily-hero">
+    <div class="eyebrow">NIVVO • hoje</div>
+    <div class="daily-title" id="dailyGreeting">Bom treino.</div>
+    <div class="small" id="dailySubtitle">Seu próximo treino está pronto.</div>
+    <div class="daily-meta">
+      <span class="pill" id="dailyPlan">Plano Base</span>
+      <span class="pill" id="dailyStreak">0 treinos</span>
+    </div>
+  </div>
+
+  <div class="metric-row">
+    <div class="metric-box"><span class="small">Semana</span><b id="weekProgress">0/3</b></div>
+    <div class="metric-box"><span class="small">Última evolução</span><b id="lastProgress">—</b></div>
+    <div class="metric-box"><span class="small">Histórico</span><b id="totalSessions">0</b></div>
+  </div>
+
+  <div class="row">
+    <button class="primary" onclick="openWorkoutV1()">Começar treino de hoje</button>
+    <button class="ghost" onclick="showHistory()">Ver histórico</button>
+  </div>
+</section>
+
+<section id="workoutV1" class="card hidden">
+  <div class="eyebrow">Treino em execução</div>
+  <h2 id="workoutV1Title">Treino de hoje</h2>
+  <p id="workoutV1Intro">Registre só o essencial. O motor usa isso para o próximo treino.</p>
+  <div id="workoutV1Exercises"></div>
+  <div class="row" style="margin-top:16px">
+    <button class="primary" onclick="finishWorkoutV1()">Finalizar sessão</button>
+    <button class="ghost" onclick="showDailyHome()">Voltar</button>
+  </div>
+</section>
+
+<section id="feedbackV1" class="card hidden">
+  <div class="eyebrow">Fechamento do treino</div>
+  <h2>Como foi a sessão?</h2>
+  <div class="grid">
+    <div class="field">
+      <label>Dificuldade geral</label>
+      <select id="v1Difficulty">
+        <option value="leve">Leve</option>
+        <option value="adequado" selected>Adequado</option>
+        <option value="pesado">Pesado</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Algum exercício incomodou?</label>
+      <select id="v1Pain"><option value="nao" selected>Não</option><option value="sim">Sim</option></select>
+    </div>
+    <div class="field">
+      <label>Qual exercício? (opcional)</label>
+      <input id="v1PainExercise" placeholder="Ex.: leg press">
+    </div>
+    <div class="field">
+      <label>Você repetiria esse treino?</label>
+      <select id="v1Repeat"><option value="sim" selected>Sim</option><option value="talvez">Talvez</option><option value="nao">Não</option></select>
+    </div>
+  </div>
+  <div class="row" style="margin-top:15px">
+    <button class="primary" onclick="saveV1Session()">Salvar e gerar próximo ajuste</button>
+  </div>
+</section>
+
+<section id="historyV1" class="card hidden">
+  <div class="eyebrow">Seu histórico</div>
+  <h2>Evolução recente</h2>
+  <div id="historyList" class="history-list"></div>
+  <div class="row" style="margin-top:14px">
+    <button class="ghost" onclick="showDailyHome()">Voltar para início</button>
+  </div>
+</section>
+
+<div id="appIntro" class="hidden">
+    <div class="hero">
+      <div class="hero-main">
+        <div class="eyebrow">Treino que se adapta</div>
+        <div class="hero-title">Menos ficha genérica.<br>Mais treino com a sua cara.</div>
+        <div class="hero-copy">O motor combina objetivo, experiência, preferências, tempo disponível e feedback para ajustar cada sessão.</div>
+        <div class="progress"><span></span></div>
+      </div>
+      <div class="hero-side">
+        <div><div class="small">Versão atual</div><div class="metric">1.0</div></div>
+        <div><div class="metric-label">Protótipo visual + motor local</div></div>
+      </div>
+    </div>
+
+</div>
+
+<div id="accountStatus" class="account-box hidden">
+  <div class="small">Sessão atual</div>
+  <b id="accountText">Modo local</b>
+</div>
+
+
+
+<section id="profileMode" class="card hidden">
+  <div class="eyebrow">Seu perfil</div>
+  <h2>Vamos te conhecer em 3 etapas</h2>
+  <p>Sem formulário gigante. A gente pega só o que realmente muda seu treino.</p>
+  <div class="feature-grid">
+    <div class="feature-card"><div class="icon">👤</div><b>1. Sobre você</b><span>Nome, idade e sexo opcional.</span></div>
+    <div class="feature-card"><div class="icon">🎯</div><b>2. Seu objetivo</b><span>O que você quer alcançar e sua experiência.</span></div>
+    <div class="feature-card"><div class="icon">🏋️</div><b>3. Sua rotina</b><span>Dias, tempo, prioridade, estilo e ambiente.</span></div>
+  </div>
+  <div class="row" style="margin-top:16px">
+    <button class="primary" onclick="startCompactProfile()">Começar</button>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+<section id="profileCompact" class="card hidden">
+  <div class="eyebrow">Perfil rápido</div>
+  <div class="stepbar"><span id="compactProgress"></span></div>
+
+  <div id="compact1" class="block-step active">
+    <h2>Sobre você</h2>
+    <p>Primeiro, só o básico.</p>
+    <div class="grid">
+      <div class="field">
+        <label>Como quer ser chamado?</label>
+        <input id="cName" placeholder="Seu nome ou apelido">
+      </div>
+      <div class="field">
+        <label>Idade</label>
+        <input id="cAge" type="number" min="18" max="90" value="30">
+      </div>
+      <div class="field">
+        <label>Sexo biológico (opcional)</label>
+        <select id="cSex">
+          <option value="nao_informado">Prefiro não informar</option>
+          <option value="feminino">Feminino</option>
+          <option value="masculino">Masculino</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div id="compact2" class="block-step">
+    <h2>Seu objetivo</h2>
+    <p>Isso define a direção do treino.</p>
+    <div class="grid">
+      <div class="field">
+        <label>Objetivo principal</label>
+        <select id="cGoal">
+          <option value="hipertrofia">Hipertrofia</option>
+          <option value="forca">Força</option>
+          <option value="condicionamento">Condicionamento</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Experiência</label>
+        <select id="cLevel">
+          <option value="iniciante">Iniciante</option>
+          <option value="intermediario">Intermediário</option>
+          <option value="avancado">Avançado</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div id="compact3" class="block-step">
+    <h2>Sua rotina de treino</h2>
+    <p>Agora o que realmente muda a montagem da sua semana.</p>
+    <div class="grid">
+      <div class="field">
+        <label>Dias por semana</label>
+        <select id="cDays"><option>2</option><option selected>3</option><option>4</option><option>5</option></select>
+      </div>
+      <div class="field">
+        <label>Tempo por treino</label>
+        <select id="cMinutes"><option>30</option><option selected>45</option><option>60</option></select>
+      </div>
+      <div class="field">
+        <label>Onde quer mais resultado?</label>
+        <select id="cPriority">
+          <option value="equilibrado">Corpo todo / equilibrado</option>
+          <option value="inferiores">Pernas / glúteos</option>
+          <option value="superiores">Peito / costas / braços</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Estilo preferido</label>
+        <select id="cStyle">
+          <option value="rapido">Rápido e objetivo</option>
+          <option value="equilibrado" selected>Equilibrado</option>
+          <option value="intenso">Mais intenso</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Onde você vai treinar?</label>
+        <select id="cPlace">
+          <option value="academia">Academia</option>
+          <option value="predio">Academia do prédio / condomínio</option>
+          <option value="casa">Em casa</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" style="margin-top:16px">
+    <button class="ghost" id="compactBack" onclick="compactPrev()">Voltar</button>
+    <button class="primary" id="compactNext" onclick="compactNext()">Continuar</button>
+  </div>
+</section>
+
+<section id="compactReview" class="card hidden">
+  <div class="eyebrow">Revisão rápida</div>
+  <h2>Seu perfil ficou assim</h2>
+  <div id="compactReviewList" class="review-box"></div>
+  <div class="row">
+    <button class="primary" onclick="applyCompactProfile()">Usar este perfil</button>
+    <button class="ghost" onclick="show('profileMode')">Voltar</button>
+  </div>
+</section>
+
+
+<section id="equipment" class="card hidden">
+  <div class="eyebrow">Etapa final</div>
+  <h2>O que você tem disponível?</h2>
+  <p id="equipmentHelp">Marque o que existe onde você treina.</p>
+  <div id="equipmentOptions" class="equip-grid"></div>
+  <div id="plusSetup" class="grid hidden" style="margin-top:14px">
+    <div class="field">
+      <label>Região que costuma incomodar</label>
+      <select id="plusDiscomfort">
+        <option value="nenhuma">Nenhuma</option>
+        <option value="lombar">Lombar</option>
+        <option value="joelho">Joelho</option>
+        <option value="ombro">Ombro</option>
+        <option value="punho">Punho</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Exercício que você já sabe que incomoda</label>
+      <input id="plusAvoid" placeholder="Opcional">
+    </div>
+  </div>
+  <div class="row" style="margin-top:16px">
+    <button class="ghost" onclick="show('compactReview')">Voltar</button>
+    <button class="primary" onclick="finishEquipment()">Montar minha semana</button>
+  </div>
+</section>
+
+<section id="ready" class="card hidden">
+  <div class="ready-hero">
+    <div class="eyebrow">Tudo pronto</div>
+    <div class="ready-title" id="readyTitle">Sua primeira semana está montada.</div>
+    <div class="small">O motor cruzou rotina, objetivo, experiência, preferências e equipamentos.</div>
+  </div>
+  <div class="summary-grid">
+    <div class="summary-card"><div class="small">Treinos por semana</div><b id="readyDays">3</b></div>
+    <div class="summary-card"><div class="small">Duração média</div><b id="readyMinutes">45 min</b></div>
+    <div class="summary-card"><div class="small">Prioridade</div><b id="readyPriority">Equilibrado</b></div>
+    <div class="summary-card"><div class="small">Ambiente</div><b id="readyPlace">Academia</b></div>
+  </div>
+  <div class="plan-strip">
+    <div><div class="small">Seu plano</div><b id="readyPlan">Base • com anúncios</b></div>
+    <span class="pill" id="readyPlanPill">Grátis</span>
+  </div>
+  <div id="adPreview" class="ad-preview">Espaço reservado para anúncio discreto na versão gratuita — sem anúncio real neste protótipo.</div>
+  <div class="row" style="margin-top:16px">
+    <button class="primary" onclick="startFirstWorkout()">Começar meu primeiro treino</button>
+    <button class="ghost" onclick="showDailyHome()">Ir para início</button>
+  </div>
+</section>
+<section id="profile" class="card hidden">
+<h2>1. Seu perfil</h2>
+<p>Respostas curtas. O motor usa técnica, preferência e histórico para montar a semana.</p>
+<div class="grid">
+<div class="field"><label>Idade</label><input id="age" type="number" min="18" max="90" value="30"></div>
+<div class="field"><label>Sexo biológico (opcional)</label><select id="sex"><option value="nao_informado">Prefiro não informar</option><option value="feminino">Feminino</option><option value="masculino">Masculino</option></select></div>
+<div class="field"><label>Objetivo</label><select id="goal"><option value="hipertrofia">Hipertrofia</option><option value="forca">Força</option><option value="condicionamento">Condicionamento</option></select></div>
+<div class="field"><label>Experiência</label><select id="level"><option value="iniciante">Iniciante</option><option value="intermediario">Intermediário</option><option value="avancado">Avançado</option></select></div>
+<div class="field"><label>Dias por semana</label><select id="days"><option>2</option><option selected>3</option><option>4</option><option>5</option></select></div>
+<div class="field"><label>Tempo por treino</label><select id="minutes"><option>30</option><option selected>45</option><option>60</option></select></div>
+<div class="field"><label>Onde quer mais resultado?</label><select id="priority"><option value="equilibrado">Corpo todo / equilibrado</option><option value="inferiores">Pernas / glúteos</option><option value="superiores">Peito / costas / braços</option></select></div>
+<div class="field"><label>Estilo preferido</label><select id="style"><option value="rapido">Rápido e objetivo</option><option value="equilibrado" selected>Equilibrado</option><option value="intenso">Mais intenso</option></select></div>
+<div class="field"><label>Plano</label><select id="plan"><option value="base">Base</option><option value="plus">Plus</option></select></div>
+<div class="field"><label>Ambiente</label><select id="place"><option value="academia">Academia completa</option><option value="casa">Casa / pouco equipamento</option></select></div>
+</div>
+
+<div id="plusBox" class="grid hidden" style="margin-top:11px">
+<div class="field"><label>Região que costuma incomodar</label><select id="discomfort"><option value="nenhuma">Nenhuma</option><option value="lombar">Lombar</option><option value="joelho">Joelho</option><option value="ombro">Ombro</option><option value="punho">Punho</option></select></div>
+<div class="field"><label>Exercício que já sabe que incomoda</label><input id="avoid" placeholder="Ex.: agachamento livre"></div>
+</div>
+
+<div class="row" style="margin-top:15px">
+<button class="primary" onclick="generatePlan()">Gerar semana</button>
+<button class="ghost" onclick="loadSaved()">Carregar meu perfil</button>
+</div>
+</section>
+
+<section id="week" class="card hidden">
+<h2>2. Sua semana</h2>
+<div class="stats">
+<div><div class="small">Sessões</div><b id="sDays"></b></div>
+<div><div class="small">Duração</div><b id="sMinutes"></b></div>
+<div><div class="small">Treinos concluídos</div><b id="sDone">0</b></div>
+</div>
+<div class="note" style="margin-top:12px" id="planReason"></div>
+<div id="weekList" style="margin-top:8px"></div>
+<div class="row"><button class="primary" onclick="openWorkout()">Abrir treino de hoje</button><button class="ghost" onclick="show('profile')">Editar perfil</button></div>
+</section>
+
+<section id="workout" class="card hidden">
+<h2>3. Treino de hoje</h2>
+<div id="today"></div>
+<div class="row" style="margin-top:12px"><button class="primary" onclick="show('feedback')">Concluir treino</button><button class="ghost" onclick="show('week')">Voltar</button></div>
+</section>
+
+<section id="feedback" class="card hidden">
+<h2>4. Como foi?</h2>
+<div class="grid">
+<div class="field"><label>Dificuldade geral</label><select id="difficulty"><option value="leve">Leve</option><option value="adequado" selected>Adequado</option><option value="pesado">Pesado</option></select></div>
+<div class="field"><label>Algum exercício incomodou?</label><select id="hadPain"><option value="nao" selected>Não</option><option value="sim">Sim</option></select></div>
+<div class="field"><label>Qual exercício? (opcional)</label><input id="painExercise" placeholder="Ex.: Hack squat"></div>
+<div class="field"><label>Você faria esse treino de novo?</label><select id="repeat"><option value="sim" selected>Sim</option><option value="talvez">Talvez</option><option value="nao">Não</option></select></div>
+</div>
+<div class="row" style="margin-top:15px"><button class="primary" onclick="saveFeedback()">Salvar e adaptar próximo treino</button></div>
+</section>
+
+<section id="result" class="card hidden">
+<h2>Adaptação salva</h2>
+<p id="resultText"></p>
+<div class="row"><button class="primary" onclick="openWorkout()">Ver próximo treino</button><button class="ghost" onclick="show('week')">Ver semana</button></div>
+</section>
+</div>
+
+<script>
+const LIB=[
+{name:"Leg press",g:"inferiores",equip:"maquina",stab:3,lum:1,knee:2,complex:1},
+{name:"Hack squat",g:"inferiores",equip:"maquina",stab:3,lum:1,knee:2,complex:2},
+{name:"Agachamento livre",g:"inferiores",equip:"barra",stab:1,lum:3,knee:2,complex:3},
+{name:"Agachamento goblet",g:"inferiores",equip:"halter",stab:2,lum:2,knee:2,complex:2},
+{name:"Cadeira extensora",g:"inferiores",equip:"maquina",stab:3,lum:1,knee:2,complex:1},
+{name:"Mesa flexora",g:"inferiores",equip:"maquina",stab:3,lum:1,knee:1,complex:1},
+{name:"Cadeira flexora",g:"inferiores",equip:"maquina",stab:3,lum:1,knee:1,complex:1},
+{name:"Hip thrust",g:"inferiores",equip:"barra",stab:2,lum:1,knee:1,complex:2},
+{name:"Elevação pélvica máquina",g:"inferiores",equip:"maquina",stab:3,lum:1,knee:1,complex:1},
+{name:"Panturrilha máquina",g:"inferiores",equip:"maquina",stab:3,lum:1,knee:1,complex:1},
+{name:"Chest press",g:"superiores",equip:"maquina",stab:3,lum:1,knee:0,complex:1},
+{name:"Supino reto barra",g:"superiores",equip:"barra",stab:2,lum:1,knee:0,complex:2},
+{name:"Supino halteres",g:"superiores",equip:"halter",stab:2,lum:1,knee:0,complex:2},
+{name:"Puxada frontal",g:"superiores",equip:"cabo",stab:3,lum:1,knee:0,complex:1},
+{name:"Puxada neutra",g:"superiores",equip:"cabo",stab:3,lum:1,knee:0,complex:1},
+{name:"Remada apoiada",g:"superiores",equip:"maquina",stab:3,lum:1,knee:0,complex:1},
+{name:"Remada sentada",g:"superiores",equip:"cabo",stab:3,lum:1,knee:0,complex:1},
+{name:"Remada curvada",g:"superiores",equip:"barra",stab:1,lum:3,knee:0,complex:3},
+{name:"Desenvolvimento máquina",g:"superiores",equip:"maquina",stab:3,lum:1,knee:0,complex:1},
+{name:"Desenvolvimento halteres",g:"superiores",equip:"halter",stab:2,lum:2,knee:0,complex:2},
+{name:"Elevação lateral",g:"superiores",equip:"halter",stab:2,lum:1,knee:0,complex:1},
+{name:"Rosca direta",g:"superiores",equip:"barra",stab:2,lum:1,knee:0,complex:1},
+{name:"Tríceps corda",g:"superiores",equip:"cabo",stab:3,lum:1,knee:0,complex:1},
+{name:"Agachamento ao banco",g:"inferiores",equip:"corpo",stab:3,lum:1,knee:1,complex:1},
+{name:"Afundo assistido",g:"inferiores",equip:"corpo",stab:2,lum:1,knee:2,complex:2},
+{name:"Flexão de braços",g:"superiores",equip:"corpo",stab:2,lum:1,knee:0,complex:2},
+{name:"Flexão inclinada",g:"superiores",equip:"corpo",stab:3,lum:1,knee:0,complex:1},
+{name:"Dead bug",g:"core",equip:"corpo",stab:3,lum:1,knee:0,complex:1},
+{name:"Pallof press",g:"core",equip:"cabo",stab:3,lum:1,knee:0,complex:1},
+{name:"Prancha",g:"core",equip:"corpo",stab:2,lum:2,knee:0,complex:1},
+{name:"Bird dog",g:"core",equip:"corpo",stab:3,lum:1,knee:0,complex:1}
+];
+
+let state={profile:null,plan:[],feedback:[],completed:0};
+
+plan.addEventListener("change",e=>plusBox.classList.toggle("hidden",e.target.value!=="plus"));
+
+function collect(){
+return{
+age:+age.value,sex:sex.value,goal:goal.value,level:level.value,days:+days.value,minutes:+minutes.value,
+priority:priority.value,style:style.value,plan:plan.value,place:place.value,
+discomfort:discomfort.value,avoid:avoid.value.trim()
+};}
+
+function score(ex,p){
+let s=10;
+if(p.level==="iniciante"){s+=ex.stab; s-=ex.complex;}
+if(p.level==="avancado") s+=ex.complex*.6;
+if(p.priority===ex.g) s+=3;
+if(p.style==="rapido" && ex.stab===3) s+=1.5;
+if(p.age>=60){s+=ex.stab*1.2; s-=ex.complex*.6;}
+if(p.equipment && p.equipment.length){
+  if(ex.equip==="maquina" && !p.equipment.includes("maquina") && !p.equipment.includes("legpress") && !p.equipment.includes("smith")) s-=30;
+  else if(ex.equip!=="maquina" && ex.equip!=="corpo" && !p.equipment.includes(ex.equip)) s-=20;
+} else if(p.place==="casa" && ["maquina","cabo","barra"].includes(ex.equip)) s-=10;
+if(p.plan==="plus"){
+ if(p.discomfort==="lombar") s-=ex.lum*2.2;
+ if(p.discomfort==="joelho") s-=ex.knee*2.2;
+ if(p.avoid && ex.name.toLowerCase().includes(p.avoid.toLowerCase())) s-=30;
+}
+for(const f of state.feedback){
+ if(f.exercise && f.exercise.toLowerCase()===ex.name.toLowerCase() && f.pain) s-=30;
+}
+return s;
+}
+
+function quotas(p){
+if(p.priority==="inferiores") return {inferiores:3,superiores:2,core:1};
+if(p.priority==="superiores") return {inferiores:2,superiores:3,core:1};
+return {inferiores:2,superiores:3,core:1};
+}
+
+function makeSession(p,offset=0){
+let out=[];
+for(const [g,c] of Object.entries(quotas(p))){
+ let a=LIB.filter(x=>x.g===g).sort((a,b)=>score(b,p)-score(a,p));
+ for(let i=0;i<c;i++) if(a.length) out.push(a[(i+offset)%Math.min(a.length,6)]);
+}
+return out;
+}
+
+function generatePlan(){
+state.profile=collect();state.plan=[];
+for(let i=0;i<state.profile.days;i++) state.plan.push(makeSession(state.profile,i));
+localStorage.setItem("treino_profile",JSON.stringify(state.profile));
+localStorage.setItem("treino_state",JSON.stringify({feedback:state.feedback,completed:state.completed}));
+savedBadge.textContent="perfil salvo";
+renderWeek();show("week");
+}
+
+function renderWeek(){
+sDays.textContent=state.profile.days;
+sMinutes.textContent=state.profile.minutes+" min";
+sDone.textContent=state.completed||0;
+planReason.textContent=state.profile.plan==="plus"
+?"Plano Plus: o motor reduziu a prioridade de movimentos conflitantes com os desconfortos informados e continua aprendendo pelo feedback."
+:"Plano Base: seleção feita por objetivo, experiência, tempo, preferência e aderência.";
+weekList.innerHTML=state.plan.map((s,i)=>`<div class="exercise"><div><b>Dia ${i+1}</b><div class="small">${s.map(x=>x.name).join(" • ")}</div></div><span class="pill">${s.length} exercícios</span></div>`).join("");
+}
+
+function openWorkout(){
+const s=state.plan[0]||[];
+const sr=state.profile.level==="iniciante"?"2–3 séries • 8–12 reps":state.profile.goal==="forca"?"3–5 séries • 4–8 reps":"3–4 séries • 8–12 reps";
+today.innerHTML=s.map((x,i)=>`<div class="exercise"><div><b>${x.name}</b><div class="small">${sr}</div></div><button class="ghost" onclick="swap(${i})">Trocar</button></div>`).join("");
+show("workout");
+}
+
+function swap(i){
+const cur=state.plan[0][i],p=state.profile;
+const cand=LIB.filter(x=>x.g===cur.g && x.name!==cur.name && !state.plan[0].some(y=>y.name===x.name))
+.sort((a,b)=>score(b,p)-score(a,p));
+if(cand.length) state.plan[0][i]=cand[0];
+openWorkout();}
+
+function saveFeedback(){
+const pain=hadPain.value==="sim", ex=painExercise.value.trim();
+state.feedback.push({difficulty:difficulty.value,pain,exercise:ex,repeat:repeat.value,date:new Date().toISOString()});
+state.completed=(state.completed||0)+1;
+state.plan=state.plan.map((_,i)=>makeSession(state.profile,i+1));
+localStorage.setItem("treino_state",JSON.stringify({feedback:state.feedback,completed:state.completed}));
+localStorage.setItem("treino_plan",JSON.stringify(state.plan));
+if(pain && ex) resultText.textContent=`O exercício "${ex}" perdeu prioridade no próximo ciclo. O restante da estrutura foi preservado.`;
+else if(difficulty.value==="leve") resultText.textContent="O treino ficou leve. O próximo ciclo pode aumentar o desafio sem mudar tudo de uma vez.";
+else if(difficulty.value==="pesado") resultText.textContent="O treino ficou pesado. O motor evitou progressão agressiva e preservou alternativas mais estáveis.";
+else resultText.textContent="Boa tolerância registrada. O motor mantém progressão conservadora e usa esse histórico nas próximas escolhas.";
+renderWeek();show("result");
+}
+
+function loadSaved(){
+const p=localStorage.getItem("treino_profile");
+if(!p){alert("Ainda não há perfil salvo neste navegador.");return;}
+state.profile=JSON.parse(p);
+const st=JSON.parse(localStorage.getItem("treino_state")||'{"feedback":[],"completed":0}');
+state.feedback=st.feedback||[];state.completed=st.completed||0;
+for(const [k,v] of Object.entries(state.profile)){
+ const el=document.getElementById(k); if(el) el.value=v;
+}
+plusBox.classList.toggle("hidden",state.profile.plan!=="plus");
+state.plan=[];
+for(let i=0;i<state.profile.days;i++) state.plan.push(makeSession(state.profile,i));
+savedBadge.textContent="perfil carregado";renderWeek();show("week");
+}
+
+function show(id){
+document.querySelectorAll("section.card").forEach(x=>x.classList.add("hidden"));
+document.getElementById(id).classList.remove("hidden");
+window.scrollTo({top:0,behavior:"smooth"});
+}
+
+
+
+
+
+let compactProfile = {
+  name:"", age:30, sex:"nao_informado", goal:"hipertrofia", level:"iniciante",
+  days:3, minutes:45, priority:"equilibrado", style:"equilibrado", place:"academia"
+};
+window.compactStep=1;
+
+function startProfileChoice(){
+  hideMainFlow();
+  document.getElementById("appIntro").classList.add("hidden");
+  document.getElementById("profileMode").classList.remove("hidden");
+}
+function startCompactProfile(){
+  window.compactStep=1;
+  renderCompactStep();
+  show("profileCompact");
+}
+function renderCompactStep(){
+  document.querySelectorAll("#profileCompact .block-step").forEach(x=>x.classList.remove("active"));
+  document.getElementById("compact"+window.compactStep).classList.add("active");
+  compactProgress.style.width=(window.compactStep/3*100)+"%";
+  compactBack.style.visibility=window.compactStep===1?"hidden":"visible";
+  compactNext.textContent=window.compactStep===3?"Revisar":"Continuar";
+}
+function compactNext(){
+  if(window.compactStep===1){
+    compactProfile.name=cName.value.trim();
+    compactProfile.age=Number(cAge.value);
+    compactProfile.sex=cSex.value;
+    if(!compactProfile.name){alert("Diz como você quer ser chamado.");return;}
+    if(!compactProfile.age || compactProfile.age<18){alert("Informe uma idade válida.");return;}
+  }
+  if(window.compactStep===2){
+    compactProfile.goal=cGoal.value;
+    compactProfile.level=cLevel.value;
+  }
+  if(window.compactStep===3){
+    compactProfile.days=Number(cDays.value);
+    compactProfile.minutes=Number(cMinutes.value);
+    compactProfile.priority=cPriority.value;
+    compactProfile.style=cStyle.value;
+    compactProfile.place=cPlace.value;
+  }
+  if(window.compactStep<3){window.compactStep++;renderCompactStep();}
+  else{renderCompactReview();}
+}
+function compactPrev(){
+  if(window.compactStep>1){window.compactStep--;renderCompactStep();}
+  else{show("profileMode");}
+}
+function renderCompactReview(){
+  const labels={
+    name:"Nome",age:"Idade",sex:"Sexo",goal:"Objetivo",level:"Experiência",
+    days:"Dias/semana",minutes:"Tempo",priority:"Prioridade",style:"Estilo",place:"Ambiente"
+  };
+  const pretty={
+    nao_informado:"Não informado",feminino:"Feminino",masculino:"Masculino",
+    hipertrofia:"Hipertrofia",forca:"Força",condicionamento:"Condicionamento",
+    iniciante:"Iniciante",intermediario:"Intermediário",avancado:"Avançado",
+    equilibrado:"Equilibrado",inferiores:"Pernas / glúteos",superiores:"Superiores",
+    rapido:"Rápido",intenso:"Intenso",
+    academia:"Academia",predio:"Academia do prédio / condomínio",casa:"Em casa"
+  };
+  compactReviewList.innerHTML=Object.entries(compactProfile).map(([k,v])=>
+    `<div class="review-row"><span>${labels[k]||k}</span><b>${pretty[v]||v}${k==="minutes"?" min":""}</b></div>`
+  ).join("");
+  show("compactReview");
+}
+function applyCompactProfile(){
+  localStorage.setItem("treino_display_name",compactProfile.name);
+  compactProfile.plan=localStorage.getItem("treino_plan_choice")||"base";
+  setupEquipmentScreen();
+  show("equipment");
+}
+
+const EQUIPMENT_SETS={
+  academia:[["maquina","Máquinas"],["cabo","Polias / cabos"],["halter","Halteres"],["barra","Barras e anilhas"],["banco","Banco"],["corpo","Peso corporal"]],
+  predio:[["halter","Halteres"],["banco","Banco"],["esteira","Esteira / bike"],["cabo","Polia"],["legpress","Leg press"],["smith","Smith"],["maquina","Algumas máquinas"],["corpo","Peso corporal"]],
+  casa:[["corpo","Peso corporal"],["halter","Halteres"],["elastico","Elásticos"],["banco","Banco"],["barra","Barra / anilhas"],["colchonete","Colchonete"]]
+};
+function setupEquipmentScreen(){
+  const p=compactProfile.place;
+  const opts=EQUIPMENT_SETS[p]||EQUIPMENT_SETS.academia;
+  equipmentHelp.textContent=p==="academia"
+    ?"Em academia completa, os principais itens já vêm marcados."
+    :p==="predio"
+      ?"Academias de prédio variam bastante. Marque só o que existe."
+      :"Marque apenas o que você realmente tem em casa.";
+  const ps=document.getElementById("plusSetup");
+  if(ps) ps.classList.toggle("hidden",(compactProfile.plan||"base")!=="plus");
+  equipmentOptions.innerHTML=opts.map(o=>`<label class="equip-option"><input type="checkbox" value="${o[0]}" ${(p==="academia"||o[0]==="corpo")?"checked":""}><span>${o[1]}</span></label>`).join("");
+}
+function finishEquipment(){
+  const eq=[...document.querySelectorAll("#equipmentOptions input:checked")].map(x=>x.value);
+  if(!eq.length){alert("Marque pelo menos um equipamento.");return;}
+  compactProfile.equipment=eq;
+  compactProfile.discomfort=(compactProfile.plan==="plus" && document.getElementById("plusDiscomfort")) ? plusDiscomfort.value : "nenhuma";
+  compactProfile.avoid=(compactProfile.plan==="plus" && document.getElementById("plusAvoid")) ? plusAvoid.value.trim() : "";
+  state.profile={
+    age:compactProfile.age,sex:compactProfile.sex,goal:compactProfile.goal,level:compactProfile.level,
+    days:Number(compactProfile.days),minutes:Number(compactProfile.minutes),priority:compactProfile.priority,
+    style:compactProfile.style,plan:compactProfile.plan,place:compactProfile.place,
+    discomfort:compactProfile.discomfort||"nenhuma",avoid:compactProfile.avoid||"",equipment:eq
+  };
+  state.plan=[];
+  for(let i=0;i<state.profile.days;i++) state.plan.push(session(state.profile,i));
+  localStorage.setItem("treino_profile",JSON.stringify(state.profile));
+  localStorage.setItem("treino_compact_profile",JSON.stringify(compactProfile));
+  localStorage.setItem("treino_plan",JSON.stringify(state.plan));
+  renderWeek();
+  renderReady();
+  show("ready");
+}
+function renderReady(){
+  const pp={equilibrado:"Equilibrado",inferiores:"Pernas / glúteos",superiores:"Superiores"};
+  const pl={academia:"Academia",predio:"Academia do prédio",casa:"Em casa"};
+  readyTitle.textContent=`Pronto, ${compactProfile.name}. Sua primeira semana está montada.`;
+  readyDays.textContent=state.profile.days;
+  readyMinutes.textContent=state.profile.minutes+" min";
+  readyPriority.textContent=pp[state.profile.priority]||state.profile.priority;
+  readyPlace.textContent=pl[state.profile.place]||state.profile.place;
+  if(state.profile.plan==="plus"){
+    readyPlan.textContent="Plus • sem anúncios";
+    readyPlanPill.textContent="Plus";
+    adPreview.classList.add("hidden");
+  }else{
+    readyPlan.textContent="Base • com anúncios";
+    readyPlanPill.textContent="Grátis";
+    adPreview.classList.remove("hidden");
+  }
+}
+function startFirstWorkout(){openWorkoutV1();}
+
+
+function showSupport(){
+  hideMainFlow();
+  document.getElementById("appIntro").classList.add("hidden");
+  document.getElementById("support").classList.remove("hidden");
+}
+function showHome(){
+  hideMainFlow();
+  document.getElementById("home").classList.remove("hidden");
+}
+function sendSupportDemo(){
+  const msg=document.getElementById("supportMessage").value.trim();
+  if(!msg){alert("Conte rapidamente o que aconteceu.");return;}
+  alert("Relato registrado no protótipo. Na versão real, isso irá para o SAC e para a fila de bugs.");
+  document.getElementById("supportMessage").value="";
+}
+
+
+function getHistory(){
+  try{return JSON.parse(localStorage.getItem("nivvo_history")||"[]")}catch(e){return[]}
+}
+function setHistory(h){localStorage.setItem("nivvo_history",JSON.stringify(h))}
+function getDisplayName(){return localStorage.getItem("treino_display_name")||"atleta"}
+
+function ensurePlanReady(){
+  if(!state.profile){
+    try{state.profile=JSON.parse(localStorage.getItem("treino_profile")||"null")}catch(e){}
+  }
+  if(!state.plan || !state.plan.length){
+    try{state.plan=JSON.parse(localStorage.getItem("treino_plan")||"[]")}catch(e){state.plan=[]}
+  }
+}
+
+
+function sessionsThisWeek(){
+  const h=getHistory();
+  const now=new Date();
+  const day=(now.getDay()+6)%7;
+  const monday=new Date(now);
+  monday.setHours(0,0,0,0);
+  monday.setDate(now.getDate()-day);
+  const nextMonday=new Date(monday);
+  nextMonday.setDate(monday.getDate()+7);
+  return h.filter(s=>{
+    const d=new Date(s.date);
+    return d>=monday && d<nextMonday;
+  }).length;
+}
+
+function showDailyHome(){
+  hideMainFlow();
+  document.getElementById("appIntro").classList.add("hidden");
+  ensurePlanReady();
+  const h=getHistory();
+  const p=state.profile||{};
+  dailyGreeting.textContent=`Bom treino, ${getDisplayName()}.`;
+  dailySubtitle.textContent=h.length ? "Seu próximo treino já leva em conta o que aconteceu antes." : "Sua primeira sessão está pronta.";
+  dailyPlan.textContent=(p.plan==="plus"?"Plus":"Base") + (p.plan==="plus"?" • sem anúncios":" • com anúncios");
+  dailyStreak.textContent=`${h.length} treino${h.length===1?"":"s"}`;
+  weekProgress.textContent=`${Math.min(sessionsThisWeek(),Number(p.days||3))}/${p.days||3}`;
+  totalSessions.textContent=h.length;
+  lastProgress.textContent=h.length ? (h[0].progressLabel||"Mantido") : "—";
+  document.getElementById("dailyHome").classList.remove("hidden");
+}
+
+function currentSession(){
+  ensurePlanReady();
+  const p=state.plan&&state.plan.length?state.plan[0]:[];
+  return p;
+}
+
+function progressionHint(exName){
+  const h=getHistory();
+  for(const sess of h){
+    const ex=(sess.exercises||[]).find(x=>x.name===exName);
+    if(ex) return ex.nextHint||"Manter";
+  }
+  return "Base inicial";
+}
+
+function openWorkoutV1(){
+  hideMainFlow();
+  const sess=currentSession();
+  workoutV1Title.textContent="Treino de hoje";
+  if(!sess.length){
+    workoutV1Exercises.innerHTML='<div class="note">Nenhum exercício compatível foi encontrado com os equipamentos selecionados. Volte ao perfil e revise o ambiente/equipamentos.</div>';
+    return;
+  }
+  workoutV1Exercises.innerHTML=sess.map((ex,i)=>{
+    const sets=(state.profile&&state.profile.level==="iniciante")?3:3;
+    let rows="";
+    for(let s=1;s<=sets;s++){
+      rows+=`<tr>
+        <td>${s}</td>
+        <td><input type="number" min="0" step="0.5" id="load_${i}_${s}" placeholder="kg"></td>
+        <td><input type="number" min="0" max="50" id="reps_${i}_${s}" placeholder="reps"></td>
+      </tr>`;
+    }
+    return `<div class="exercise-card">
+      <h3>${ex.name}</h3>
+      <div class="ex-meta">${progressionHint(ex.name)}</div>
+      <table class="set-table">
+        <thead><tr><th>Série</th><th>Carga</th><th>Reps</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+  }).join("");
+  document.getElementById("workoutV1").classList.remove("hidden");
+}
+
+function finishWorkoutV1(){
+  hideMainFlow();
+  document.getElementById("feedbackV1").classList.remove("hidden");
+}
+
+function collectSessionData(){
+  const sess=currentSession();
+  return sess.map((ex,i)=>{
+    const sets=[];
+    for(let s=1;s<=3;s++){
+      const load=Number(document.getElementById(`load_${i}_${s}`)?.value||0);
+      const reps=Number(document.getElementById(`reps_${i}_${s}`)?.value||0);
+      sets.push({load,reps});
+    }
+    return {name:ex.name,sets};
+  });
+}
+
+
+function findPreviousExercisePerformance(exName){
+  const h=getHistory();
+  for(const sess of h){
+    const ex=(sess.exercises||[]).find(x=>x.name===exName);
+    if(ex){
+      const valid=(ex.sets||[]).filter(s=>Number(s.reps)>0);
+      if(!valid.length) return null;
+      return {
+        avgReps:valid.reduce((a,b)=>a+Number(b.reps||0),0)/valid.length,
+        avgLoad:valid.reduce((a,b)=>a+Number(b.load||0),0)/valid.length
+      };
+    }
+  }
+  return null;
+}
+
+function decideProgress(ex,difficulty,painExercise){
+  const valid=ex.sets.filter(x=>x.reps>0);
+  const avgReps=valid.length?valid.reduce((a,b)=>a+b.reps,0)/valid.length:0;
+  const avgLoad=valid.length?valid.reduce((a,b)=>a+b.load,0)/valid.length:0;
+  const prev=findPreviousExercisePerformance(ex.name);
+  if(painExercise && ex.name.toLowerCase()===painExercise.toLowerCase()) return {nextHint:"Trocar no próximo treino",label:"Troca"};
+  if(difficulty==="pesado") return {nextHint:"Manter ou reduzir levemente",label:"="};
+  if(prev){
+    const improvedLoad=avgLoad>prev.avgLoad;
+    const improvedReps=avgReps>prev.avgReps;
+    if(difficulty==="leve" && (improvedLoad || improvedReps) && avgReps>=10){
+      return {nextHint:avgLoad>0?`Subir levemente acima de ${avgLoad.toFixed(1)} kg`:"Aumentar desafio",label:"↑"};
+    }
+    if(avgLoad<prev.avgLoad*0.9 || avgReps<prev.avgReps-2){
+      return {nextHint:"Manter ou reduzir e consolidar",label:"↓"};
+    }
+    return {nextHint:"Manter e consolidar",label:"="};
+  }
+  if(difficulty==="leve" && avgReps>=10) return {nextHint:avgLoad>0?`Subir levemente acima de ${avgLoad.toFixed(1)} kg`:"Aumentar desafio",label:"↑"};
+  if(avgReps>=8) return {nextHint:"Manter e consolidar",label:"="};
+  return {nextHint:"Reduzir exigência e consolidar técnica",label:"↓"};
+}
+
+function saveV1Session(){
+  const exercises=collectSessionData();
+  const difficulty=v1Difficulty.value;
+  const pain=v1Pain.value==="sim";
+  const painExercise=v1PainExercise.value.trim();
+  let labels=[];
+  exercises.forEach(ex=>{
+    const d=decideProgress(ex,difficulty,pain?painExercise:"");
+    ex.nextHint=d.nextHint;labels.push(d.label);
+  });
+  let progressLabel="Mantido";
+  if(labels.includes("↑")) progressLabel="Progrediu";
+  if(labels.includes("↓")) progressLabel="Ajustado";
+  if(labels.includes("Troca")) progressLabel="Substituição";
+  const history=getHistory();
+  history.unshift({
+    date:new Date().toISOString(),
+    difficulty,
+    pain,
+    painExercise,
+    repeat:v1Repeat.value,
+    progressLabel,
+    exercises
+  });
+  setHistory(history.slice(0,50));
+  localStorage.setItem("treino_state",JSON.stringify({feedback:state.feedback||[],completed:history.length}));
+  showDailyHome();
+}
+
+function showHistory(){
+  hideMainFlow();
+  const h=getHistory();
+  if(!h.length){
+    historyList.innerHTML='<div class="note">Ainda não há treinos concluídos.</div>';
+  }else{
+    historyList.innerHTML=h.map((s,idx)=>{
+      const date=new Date(s.date).toLocaleDateString("pt-BR");
+      const cls=s.progressLabel==="Progrediu"?"progress-good":s.progressLabel==="Ajustado"?"progress-down":"progress-hold";
+      const highlights=(s.exercises||[]).slice(0,3).map(ex=>{
+        const best=(ex.sets||[]).reduce((a,b)=>(b.load*b.reps>a.load*a.reps?b:a),{load:0,reps:0});
+        return `${ex.name}: ${best.load||0} kg × ${best.reps||0}`;
+      }).join(" • ");
+      return `<div class="history-item">
+        <b>${date} • <span class="${cls}">${s.progressLabel}</span></b>
+        <div class="small">${highlights||"Treino concluído"}</div>
+      </div>`;
+    }).join("");
+  }
+  document.getElementById("historyV1").classList.remove("hidden");
+}
+
+function hideMainFlow(){
+  ["onboard1","onboard2","onboard3","home","support","profileMode","profileCompact","compactReview","equipment","ready","dailyHome","workoutV1","feedbackV1","historyV1","profile","week","workout","feedback","result"].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.classList.add("hidden");
+  });
+}
+function showOnboarding(step){
+  hideAuthScreens();
+  hideMainFlow();
+  document.getElementById("appIntro").classList.add("hidden");
+  const el=document.getElementById("onboard"+step);
+  if(el) el.classList.remove("hidden");
+}
+function finishOnboarding(planChoice){
+  localStorage.setItem("treino_onboarding_done","1");
+  localStorage.setItem("treino_plan_choice",planChoice);
+  hideMainFlow();
+  const badge=document.getElementById("homePlanBadge");
+  if(badge) badge.textContent=planChoice==="plus"?"Plus":"Base";
+  document.getElementById("home").classList.remove("hidden");
+}
+function startProfile(){
+  hideMainFlow();
+  document.getElementById("appIntro").classList.remove("hidden");
+  document.getElementById("accountStatus").classList.remove("hidden");
+  const choice=localStorage.getItem("treino_plan_choice")||"base";
+  const planEl=document.getElementById("plan");
+  if(planEl) planEl.value=choice;
+  const plus=document.getElementById("plusBox");
+  if(plus) plus.classList.toggle("hidden",choice!=="plus");
+  show("profile");
+}
+
+function hideAuthScreens(){
+  ["welcome","login","signup","forgot"].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.classList.add("hidden");
+  });
+}
+function showLogin(){
+  hideAuthScreens();
+  document.getElementById("login").classList.remove("hidden");
+  document.getElementById("appIntro").classList.add("hidden");
+}
+function showSignup(){
+  hideAuthScreens();
+  document.getElementById("signup").classList.remove("hidden");
+  document.getElementById("appIntro").classList.add("hidden");
+}
+function showForgot(){
+  hideAuthScreens();
+  document.getElementById("forgot").classList.remove("hidden");
+  document.getElementById("appIntro").classList.add("hidden");
+}
+function backToLogin(){ showLogin(); }
+function enterApp(label, persistent){
+  localStorage.setItem("treino_auth_demo", JSON.stringify({label,persistent}));
+  document.getElementById("welcome").classList.add("hidden");
+  document.getElementById("login").classList.add("hidden");
+  document.getElementById("appIntro").classList.add("hidden");
+  document.getElementById("accountStatus").classList.add("hidden");
+  document.getElementById("accountText").textContent = label + (persistent ? " • conta preparada para sincronização" : " • dados apenas neste aparelho");
+  localStorage.setItem("treino_onboarding_done","0");
+  showOnboarding(1);
+}
+function demoLogin(provider){ enterApp(provider, true); }
+function emailPasswordLogin(){
+  const email=document.getElementById("loginEmail").value.trim();
+  const pass=document.getElementById("loginPassword").value.trim();
+  if(!email || !pass){ alert("Preencha e-mail e senha."); return; }
+  enterApp(email, true);
+}
+function phoneLogin(){
+  const phone=document.getElementById("loginPhone").value.trim();
+  if(!phone){ alert("Digite seu celular."); return; }
+  enterApp(phone, true);
+}
+function createAccount(){
+  const name=document.getElementById("signupName").value.trim();
+  const email=document.getElementById("signupEmail").value.trim();
+  const phone=document.getElementById("signupPhone").value.trim();
+  const p1=document.getElementById("signupPassword").value;
+  const p2=document.getElementById("signupPassword2").value;
+  if(!name || (!email && !phone) || !p1){ alert("Preencha nome, um contato e uma senha."); return; }
+  if(p1!==p2){ alert("As senhas não conferem."); return; }
+  enterApp(name, true);
+}
+function recoverAccess(){
+  const email=document.getElementById("forgotEmail").value.trim();
+  const phone=document.getElementById("forgotPhone").value.trim();
+  if(!email && !phone){ alert("Informe um e-mail ou celular."); return; }
+  alert("Protótipo: na versão real, enviaremos um link ou código para recuperar o acesso.");
+  backToLogin();
+}
+function guestMode(){ enterApp("Modo sem conta", false); }
+
+window.addEventListener("load",()=>{
+  if(localStorage.getItem("treino_profile")) savedBadge.textContent="há perfil salvo";
+  const auth=localStorage.getItem("treino_auth_demo");
+  if(auth){
+    try{
+      const a=JSON.parse(auth);
+      hideAuthScreens();
+      document.getElementById("appIntro").classList.add("hidden");
+      document.getElementById("accountText").textContent=a.label+(a.persistent?" • conta preparada para sincronização":" • dados apenas neste aparelho");
+      if(localStorage.getItem("treino_onboarding_done")==="1"){
+        if(localStorage.getItem("treino_profile")){
+          showDailyHome();
+        }else{
+          const choice=localStorage.getItem("treino_plan_choice")||"base";
+          const badge=document.getElementById("homePlanBadge");
+          if(badge) badge.textContent=choice==="plus"?"Plus":"Base";
+          hideMainFlow();
+          document.getElementById("home").classList.remove("hidden");
+        }
+      }else{
+        showOnboarding(1);
+      }
+    }catch(e){ showLogin(); }
+  }else{
+    hideMainFlow();
+    document.getElementById("welcome").classList.remove("hidden");
+    document.getElementById("appIntro").classList.add("hidden");
+  }
+});
+</script>
+</body></html>
+
+<!-- visual refresh v0.3 -->
