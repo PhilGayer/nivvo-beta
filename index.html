@@ -1059,7 +1059,7 @@ function renderCompactStep(){
   document.getElementById("compact"+window.compactStep).classList.add("active");
   compactProgress.style.width=(window.compactStep/3*100)+"%";
   compactBack.style.visibility=window.compactStep===1?"hidden":"visible";
-  compactNext.textContent=window.compactStep===3?"Revisar":"Continuar";
+  document.getElementById("compactNext").textContent=window.compactStep===3?"Revisar":"Continuar";
 }
 function compactNext(){
   if(window.compactStep===1){
@@ -1142,7 +1142,7 @@ function finishEquipment(){
     discomfort:compactProfile.discomfort||"nenhuma",avoid:compactProfile.avoid||"",equipment:eq
   };
   state.plan=[];
-  for(let i=0;i<state.profile.days;i++) state.plan.push(session(state.profile,i));
+  for(let i=0;i<state.profile.days;i++) state.plan.push(makeSession(state.profile,i));
   localStorage.setItem("treino_profile",JSON.stringify(state.profile));
   localStorage.setItem("treino_compact_profile",JSON.stringify(compactProfile));
   localStorage.setItem("treino_plan",JSON.stringify(state.plan));
