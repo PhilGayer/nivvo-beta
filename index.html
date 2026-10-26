@@ -883,40 +883,12 @@ textarea{width:100%;min-height:120px;padding:12px 13px;color:var(--text);backgro
 </section>
 </div>
 
+<script src="engine/motor-legacy.js"></script>
 <script>
-const LIB=[
-{name:"Leg press",g:"inferiores",equip:"maquina",stab:3,lum:1,knee:2,complex:1},
-{name:"Hack squat",g:"inferiores",equip:"maquina",stab:3,lum:1,knee:2,complex:2},
-{name:"Agachamento livre",g:"inferiores",equip:"barra",stab:1,lum:3,knee:2,complex:3},
-{name:"Agachamento goblet",g:"inferiores",equip:"halter",stab:2,lum:2,knee:2,complex:2},
-{name:"Cadeira extensora",g:"inferiores",equip:"maquina",stab:3,lum:1,knee:2,complex:1},
-{name:"Mesa flexora",g:"inferiores",equip:"maquina",stab:3,lum:1,knee:1,complex:1},
-{name:"Cadeira flexora",g:"inferiores",equip:"maquina",stab:3,lum:1,knee:1,complex:1},
-{name:"Hip thrust",g:"inferiores",equip:"barra",stab:2,lum:1,knee:1,complex:2},
-{name:"Elevação pélvica máquina",g:"inferiores",equip:"maquina",stab:3,lum:1,knee:1,complex:1},
-{name:"Panturrilha máquina",g:"inferiores",equip:"maquina",stab:3,lum:1,knee:1,complex:1},
-{name:"Chest press",g:"superiores",equip:"maquina",stab:3,lum:1,knee:0,complex:1},
-{name:"Supino reto barra",g:"superiores",equip:"barra",stab:2,lum:1,knee:0,complex:2},
-{name:"Supino halteres",g:"superiores",equip:"halter",stab:2,lum:1,knee:0,complex:2},
-{name:"Puxada frontal",g:"superiores",equip:"cabo",stab:3,lum:1,knee:0,complex:1},
-{name:"Puxada neutra",g:"superiores",equip:"cabo",stab:3,lum:1,knee:0,complex:1},
-{name:"Remada apoiada",g:"superiores",equip:"maquina",stab:3,lum:1,knee:0,complex:1},
-{name:"Remada sentada",g:"superiores",equip:"cabo",stab:3,lum:1,knee:0,complex:1},
-{name:"Remada curvada",g:"superiores",equip:"barra",stab:1,lum:3,knee:0,complex:3},
-{name:"Desenvolvimento máquina",g:"superiores",equip:"maquina",stab:3,lum:1,knee:0,complex:1},
-{name:"Desenvolvimento halteres",g:"superiores",equip:"halter",stab:2,lum:2,knee:0,complex:2},
-{name:"Elevação lateral",g:"superiores",equip:"halter",stab:2,lum:1,knee:0,complex:1},
-{name:"Rosca direta",g:"superiores",equip:"barra",stab:2,lum:1,knee:0,complex:1},
-{name:"Tríceps corda",g:"superiores",equip:"cabo",stab:3,lum:1,knee:0,complex:1},
-{name:"Agachamento ao banco",g:"inferiores",equip:"corpo",stab:3,lum:1,knee:1,complex:1},
-{name:"Afundo assistido",g:"inferiores",equip:"corpo",stab:2,lum:1,knee:2,complex:2},
-{name:"Flexão de braços",g:"superiores",equip:"corpo",stab:2,lum:1,knee:0,complex:2},
-{name:"Flexão inclinada",g:"superiores",equip:"corpo",stab:3,lum:1,knee:0,complex:1},
-{name:"Dead bug",g:"core",equip:"corpo",stab:3,lum:1,knee:0,complex:1},
-{name:"Pallof press",g:"core",equip:"cabo",stab:3,lum:1,knee:0,complex:1},
-{name:"Prancha",g:"core",equip:"corpo",stab:2,lum:2,knee:0,complex:1},
-{name:"Bird dog",g:"core",equip:"corpo",stab:3,lum:1,knee:0,complex:1}
-];
+const {LIB,eligible}=NivvoMotor;
+function score(ex,p){return NivvoMotor.score(ex,p,state.feedback);}
+function makeSession(p,offset=0){return NivvoMotor.makeSession(p,offset,state.feedback);}
+
 
 let state={profile:null,plan:[],feedback:[],completed:0};
 
@@ -928,43 +900,6 @@ age:+age.value,sex:sex.value,goal:goal.value,level:level.value,days:+days.value,
 priority:priority.value,style:style.value,plan:plan.value,place:place.value,
 discomfort:discomfort.value,avoid:avoid.value.trim()
 };}
-
-function score(ex,p){
-let s=10;
-if(p.level==="iniciante"){s+=ex.stab; s-=ex.complex;}
-if(p.level==="avancado") s+=ex.complex*.6;
-if(p.priority===ex.g) s+=3;
-if(p.style==="rapido" && ex.stab===3) s+=1.5;
-if(p.age>=60){s+=ex.stab*1.2; s-=ex.complex*.6;}
-if(p.equipment && p.equipment.length){
-  if(ex.equip==="maquina" && !p.equipment.includes("maquina") && !p.equipment.includes("legpress") && !p.equipment.includes("smith")) s-=30;
-  else if(ex.equip!=="maquina" && ex.equip!=="corpo" && !p.equipment.includes(ex.equip)) s-=20;
-} else if(p.place==="casa" && ["maquina","cabo","barra"].includes(ex.equip)) s-=10;
-if(p.plan==="plus"){
- if(p.discomfort==="lombar") s-=ex.lum*2.2;
- if(p.discomfort==="joelho") s-=ex.knee*2.2;
- if(p.avoid && ex.name.toLowerCase().includes(p.avoid.toLowerCase())) s-=30;
-}
-for(const f of state.feedback){
- if(f.exercise && f.exercise.toLowerCase()===ex.name.toLowerCase() && f.pain) s-=30;
-}
-return s;
-}
-
-function quotas(p){
-if(p.priority==="inferiores") return {inferiores:3,superiores:2,core:1};
-if(p.priority==="superiores") return {inferiores:2,superiores:3,core:1};
-return {inferiores:2,superiores:3,core:1};
-}
-
-function makeSession(p,offset=0){
-let out=[];
-for(const [g,c] of Object.entries(quotas(p))){
- let a=LIB.filter(x=>x.g===g).sort((a,b)=>score(b,p)-score(a,p));
- for(let i=0;i<c;i++) if(a.length) out.push(a[(i+offset)%Math.min(a.length,6)]);
-}
-return out;
-}
 
 function generatePlan(){
 state.profile=collect();state.plan=[];
@@ -994,7 +929,7 @@ show("workout");
 
 function swap(i){
 const cur=state.plan[0][i],p=state.profile;
-const cand=LIB.filter(x=>x.g===cur.g && x.name!==cur.name && !state.plan[0].some(y=>y.name===x.name))
+const cand=LIB.filter(x=>eligible(x,p.equipment) && x.g===cur.g && x.name!==cur.name && !state.plan[0].some(y=>y.name===x.name))
 .sort((a,b)=>score(b,p)-score(a,p));
 if(cand.length) state.plan[0][i]=cand[0];
 openWorkout();}
@@ -1316,26 +1251,7 @@ function findPreviousExercisePerformance(exName){
 }
 
 function decideProgress(ex,difficulty,painExercise){
-  const valid=ex.sets.filter(x=>x.reps>0);
-  const avgReps=valid.length?valid.reduce((a,b)=>a+b.reps,0)/valid.length:0;
-  const avgLoad=valid.length?valid.reduce((a,b)=>a+b.load,0)/valid.length:0;
-  const prev=findPreviousExercisePerformance(ex.name);
-  if(painExercise && ex.name.toLowerCase()===painExercise.toLowerCase()) return {nextHint:"Trocar no próximo treino",label:"Troca"};
-  if(difficulty==="pesado") return {nextHint:"Manter ou reduzir levemente",label:"="};
-  if(prev){
-    const improvedLoad=avgLoad>prev.avgLoad;
-    const improvedReps=avgReps>prev.avgReps;
-    if(difficulty==="leve" && (improvedLoad || improvedReps) && avgReps>=10){
-      return {nextHint:avgLoad>0?`Subir levemente acima de ${avgLoad.toFixed(1)} kg`:"Aumentar desafio",label:"↑"};
-    }
-    if(avgLoad<prev.avgLoad*0.9 || avgReps<prev.avgReps-2){
-      return {nextHint:"Manter ou reduzir e consolidar",label:"↓"};
-    }
-    return {nextHint:"Manter e consolidar",label:"="};
-  }
-  if(difficulty==="leve" && avgReps>=10) return {nextHint:avgLoad>0?`Subir levemente acima de ${avgLoad.toFixed(1)} kg`:"Aumentar desafio",label:"↑"};
-  if(avgReps>=8) return {nextHint:"Manter e consolidar",label:"="};
-  return {nextHint:"Reduzir exigência e consolidar técnica",label:"↓"};
+ return NivvoMotor.decideProgress(ex,difficulty,painExercise,findPreviousExercisePerformance(ex.name));
 }
 
 function saveV1Session(){

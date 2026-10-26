@@ -1,0 +1,8 @@
+project_id = "alktccwzyyytvrzpwvjj"
+
+[functions.nivvo-api]
+# Explicit getUser validation inside the function. No anonymous actions.
+verify_jwt = false
+
+[functions.nivvo-qa-provision]
+verify_jwt = true

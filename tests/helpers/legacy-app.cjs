@@ -54,7 +54,9 @@ function loadApp({ source, saved = {}, equipment = ['maquina', 'cabo', 'halter',
   for (const [id, element] of elements) sandbox[id] = element;
   sandbox.window = sandbox;
   const context = vm.createContext(sandbox);
-  for (const [, script] of html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)) {
+  for (const [, attributes, inline] of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {
+    const src=attributes.match(/src="([^"]+)"/)?.[1];
+    const script=src?readFileSync(join(__dirname,'../../',src),'utf8'):inline;
     new vm.Script(script, { filename: 'index.html' }).runInContext(context);
   }
   return {
