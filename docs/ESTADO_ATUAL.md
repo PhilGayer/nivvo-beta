@@ -30,9 +30,21 @@ Versão mantida: **1.1.0-dev**. Produto, preço e governança não foram alterad
   confirmação pela API oficial, login por senha, perfil e Free criados.
 - **TESTADO:** `evidence/rpc-direct-qa.json`: testes transacionais dos RPCs de
   consentimento, exercício alheio e revisão. Sessão temporária revertida.
-- **PENDENTE:** URL de retorno do Auth ainda apontava a `http://localhost:3000`.
-  O ajuste exige acesso ao painel; o conector não oferece essa configuração.
-  Não desativar confirmação de e-mail para contornar o problema.
+- **IMPLEMENTADO / TESTADO (26/10, retomada do gate humano):** a sessão
+  autenticada do painel Supabase foi reutilizada. Site URL e única Redirect URL:
+  `https://nivvo-staging.secret-rhea-8953.chatgpt.site/`, sem curingas. O retorno
+  anterior a localhost foi corrigido; confirmação de e-mail continua habilitada.
+  Evidência visual: `evidence/auth-url-config.jpg`.
+- **TESTADO POR HTTP/API:** mensagens reais de confirmação e recuperação agora
+  apontam ao staging publicado. Callbacks oficiais, sessão autenticada,
+  recuperação com alteração de senha e novo login são registrados em
+  `evidence/auth-redirect-qa.json`. Essa prova não substitui E2E de navegador.
+- **PENDENTE / BLOQUEIO DISTINTO:** o staging continua privado, versão publicada
+  1. O navegador alcançou o gate “Entre para acessar / Continuar com o ChatGPT”.
+  A tentativa de acesso seguro expirou; uma visita nova continuou no gate.
+  O acesso ao painel Supabase está resolvido. Falta acesso autenticado ao Site e
+  à conta NIVVO no navegador para concluir o E2E publicado; não declarar esse
+  E2E nem o checkpoint final como aprovados.
 - **TESTADO:** `evidence/ui-cloud-qa.json`: 10/10 verificações dos handlers reais
   da interface contra Auth/API reais, incluindo envio interrompido, fila offline,
   recarga, feedback, histórico e troca de conta. DOM simulado; não equivale a E2E
@@ -54,5 +66,8 @@ Comandos: `npm ci`, `npm test`, `npm run build`; testes reais em
 As contas QA foram criadas pela API oficial de Auth, nunca por INSERT em auth.users.
 O provisionador temporário foi encerrado imediatamente e responde Gone.
 
-Próxima decisão de produto: checkpoint Phill + Sol, antes de expansão de escopo
-ou revisão visual maior. Não foram simuladas consultas a especialistas.
+Próximo passo: concluir somente o E2E autenticado do staging e então abrir o
+checkpoint Phill + Sol, antes de expansão de escopo ou revisão visual maior.
+Não foram simuladas consultas a especialistas; versão mantida 1.1.0-dev.
+Nesta retomada não houve nova migration, backend, Auth ou repetição das suítes
+anteriores; somente configuração de retorno e validação direcionada.
