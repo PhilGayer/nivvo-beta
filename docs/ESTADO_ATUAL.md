@@ -39,12 +39,17 @@ Versão mantida: **1.1.0-dev**. Produto, preço e governança não foram alterad
   apontam ao staging publicado. Callbacks oficiais, sessão autenticada,
   recuperação com alteração de senha e novo login são registrados em
   `evidence/auth-redirect-qa.json`. Essa prova não substitui E2E de navegador.
-- **PENDENTE / BLOQUEIO DISTINTO:** o staging continua privado, versão publicada
-  1. O navegador alcançou o gate “Entre para acessar / Continuar com o ChatGPT”.
-  A tentativa de acesso seguro expirou; uma visita nova continuou no gate.
-  O acesso ao painel Supabase está resolvido. Falta acesso autenticado ao Site e
-  à conta NIVVO no navegador para concluir o E2E publicado; não declarar esse
-  E2E nem o checkpoint final como aprovados.
+- **TESTADO NO NAVEGADOR (26/10, após acesso liberado por Phill):** o gate
+  privado do Site foi superado na sessão existente. A página publicada abriu
+  com título “NIVVO · v1.1.0-dev” e formulário próprio do NIVVO: e-mail, senha,
+  Entrar, Esqueci minha senha e Criar conta. O bloqueio de acesso privado ao Site
+  está encerrado. Evidência textual: `evidence/browser-staging-qa.json`.
+- **PENDENTE / BLOQUEIO DE AMBIENTE:** o pedido seguro de login NIVVO foi
+  interrompido antes de retornar resultado verificável. Em seguida o ambiente
+  de execução informou erro 503 e o controle de navegador ficou indisponível.
+  O estado final da autenticação NIVVO é desconhecido; não inferir falha de
+  credencial nem solicitar novo login sem inspecionar a sessão existente.
+  O E2E autenticado e o checkpoint Phill + Sol continuam pendentes.
 - **TESTADO:** `evidence/ui-cloud-qa.json`: 10/10 verificações dos handlers reais
   da interface contra Auth/API reais, incluindo envio interrompido, fila offline,
   recarga, feedback, histórico e troca de conta. DOM simulado; não equivale a E2E
