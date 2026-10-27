@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+supabase/.temp/
+*.log
+engine/motor-legacy.js
+supabase/functions/nivvo-api/motor.mjs

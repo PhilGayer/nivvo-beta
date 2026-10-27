@@ -1,0 +1,46 @@
+{
+  "project": "alktccwzyyytvrzpwvjj",
+  "staging": "https://nivvo-staging.secret-rhea-8953.chatgpt.site/",
+  "observed_on": "2026-10-26",
+  "timezone": "America/Sao_Paulo",
+  "source": "Actual Cloud Browser accessibility and DOM observations after user takeover",
+  "status": "PARTIAL_BLOCKED_ENVIRONMENT",
+  "private_site_access": "PASS",
+  "page": {
+    "title": "NIVVO · v1.1.0-dev",
+    "url": "https://nivvo-staging.secret-rhea-8953.chatgpt.site/",
+    "heading": "Entre para continuar",
+    "visible_controls": [
+      "E-mail",
+      "Senha",
+      "Entrar",
+      "Esqueci minha senha",
+      "Criar conta"
+    ]
+  },
+  "nivvo_login": {
+    "method": "Secure browserAuth request for visible email/password form",
+    "tool_outcome": "aborted by user",
+    "authentication_result": "UNKNOWN_NOT_VERIFIED",
+    "credentials_observed_or_logged": false
+  },
+  "blocker": {
+    "execution_environment": "failed",
+    "reported_http_status": 503,
+    "reported_error": "exec-server connection attempt failed: environment registry request failed (503 Service Unavailable): environment registry connect request failed",
+    "browser_tool": "unavailable after interrupted request"
+  },
+  "browser_e2e": "PENDING",
+  "limits": [
+    "Private staging page access was verified in the actual browser.",
+    "No authenticated NIVVO session or full vertical journey was verified in this browser continuation.",
+    "Prior HTTP/API and simulated DOM evidence remains historical and is not relabeled as browser E2E.",
+    "No screenshot was captured for this observation before browser access became unavailable."
+  ],
+  "resume": [
+    "Inspect the existing staging browser session before requesting any additional authentication.",
+    "Complete authenticated vertical E2E, capture evidence, and update current state.",
+    "Stop for Phill + Sol checkpoint only after required checks pass."
+  ],
+  "changes_in_this_continuation": "Documentation and evidence only; no migration, account creation, Auth implementation, deployment, version promotion or repeated completed test suites."
+}

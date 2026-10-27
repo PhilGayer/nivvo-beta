@@ -1,0 +1,217 @@
+{
+  "version": "1.1.0-dev",
+  "project": "alktccwzyyytvrzpwvjj",
+  "started_at": "2026-10-26T04:57:52.150Z",
+  "checks": [
+    {
+      "name": "Auth login A",
+      "status": "PASS",
+      "user_id": "bbbd45f5-1506-4705-95cf-35809a55277f"
+    },
+    {
+      "name": "signup trigger profile + Free entitlement A",
+      "status": "PASS"
+    },
+    {
+      "name": "save profile cloud A",
+      "status": "PASS"
+    },
+    {
+      "name": "profile repeated write reconciles mappings A",
+      "status": "PASS"
+    },
+    {
+      "name": "create plan idempotent A",
+      "status": "PASS",
+      "plan_id": "179f68b8-2f00-4c76-8859-c25c5e62eacf",
+      "exercises": 18
+    },
+    {
+      "name": "start session idempotent A",
+      "status": "PASS",
+      "session_id": "e85a2546-abd1-4e56-b6e4-cdf8078daf2b"
+    },
+    {
+      "name": "sets persist and write replay idempotent A",
+      "status": "PASS"
+    },
+    {
+      "name": "revision conflict A",
+      "status": "PASS"
+    },
+    {
+      "name": "Auth login B",
+      "status": "PASS",
+      "user_id": "aaf0db3a-028f-4446-81dd-3c784bd33803"
+    },
+    {
+      "name": "signup trigger profile + Free entitlement B",
+      "status": "PASS"
+    },
+    {
+      "name": "save profile cloud B",
+      "status": "PASS"
+    },
+    {
+      "name": "profile repeated write reconciles mappings B",
+      "status": "PASS"
+    },
+    {
+      "name": "create plan idempotent B",
+      "status": "PASS",
+      "plan_id": "8812b02e-b3d3-45ee-9164-90197cc1d838",
+      "exercises": 9
+    },
+    {
+      "name": "start session idempotent B",
+      "status": "PASS",
+      "session_id": "86120690-a1d4-4704-95d8-61cdbce9cfae"
+    },
+    {
+      "name": "sets persist and write replay idempotent B",
+      "status": "PASS"
+    },
+    {
+      "name": "revision conflict B",
+      "status": "PASS"
+    },
+    {
+      "name": "RLS A cannot read B in all 15 owner tables",
+      "status": "PASS",
+      "tables": 15
+    },
+    {
+      "name": "RLS A cannot update B",
+      "status": "PASS"
+    },
+    {
+      "name": "RLS A cannot delete B",
+      "status": "PASS"
+    },
+    {
+      "name": "RLS A cannot reassign own row to B",
+      "status": "PASS",
+      "code": "42501"
+    },
+    {
+      "name": "API A cannot override owner to B",
+      "status": "PASS"
+    },
+    {
+      "name": "API A cannot start B plan",
+      "status": "PASS"
+    },
+    {
+      "name": "API A cannot write B session",
+      "status": "PASS"
+    },
+    {
+      "name": "API A rejects B exercise inside owned session",
+      "status": "PASS"
+    },
+    {
+      "name": "protected writes and entitlement escalation denied A",
+      "status": "PASS"
+    },
+    {
+      "name": "service-only RPCs rejected for A",
+      "status": "PASS",
+      "rpcs": 4
+    },
+    {
+      "name": "RLS B cannot read A in all 15 owner tables",
+      "status": "PASS",
+      "tables": 15
+    },
+    {
+      "name": "RLS B cannot update A",
+      "status": "PASS"
+    },
+    {
+      "name": "RLS B cannot delete A",
+      "status": "PASS"
+    },
+    {
+      "name": "RLS B cannot reassign own row to A",
+      "status": "PASS",
+      "code": "42501"
+    },
+    {
+      "name": "API B cannot override owner to A",
+      "status": "PASS"
+    },
+    {
+      "name": "API B cannot start A plan",
+      "status": "PASS"
+    },
+    {
+      "name": "API B cannot write A session",
+      "status": "PASS"
+    },
+    {
+      "name": "API B rejects A exercise inside owned session",
+      "status": "PASS"
+    },
+    {
+      "name": "protected writes and entitlement escalation denied B",
+      "status": "PASS"
+    },
+    {
+      "name": "service-only RPCs rejected for B",
+      "status": "PASS",
+      "rpcs": 4
+    },
+    {
+      "name": "discomfort without consent rolls back A",
+      "status": "PASS"
+    },
+    {
+      "name": "feedback completion and discomfort consent A",
+      "status": "PASS"
+    },
+    {
+      "name": "completed write replay and new writes blocked A",
+      "status": "PASS"
+    },
+    {
+      "name": "logout new login full cloud restoration A",
+      "status": "PASS",
+      "sets": 9,
+      "feedback": 1,
+      "history": 1
+    },
+    {
+      "name": "discomfort without consent rolls back B",
+      "status": "PASS"
+    },
+    {
+      "name": "feedback completion and discomfort consent B",
+      "status": "PASS"
+    },
+    {
+      "name": "completed write replay and new writes blocked B",
+      "status": "PASS"
+    },
+    {
+      "name": "logout new login full cloud restoration B",
+      "status": "PASS",
+      "sets": 9,
+      "feedback": 1,
+      "history": 1
+    },
+    {
+      "name": "password recovery token, change, logout and new password login",
+      "status": "PASS"
+    },
+    {
+      "name": "anonymous API calls rejected",
+      "status": "PASS"
+    }
+  ],
+  "limits": [
+    "Contas de QA criadas pela API Auth Admin oficial, com e-mail de teste confirmado. Entrega SMTP não simulada."
+  ],
+  "finished_at": "2026-10-26T05:02:33.640Z",
+  "passed": 46,
+  "failed": 0
+}
