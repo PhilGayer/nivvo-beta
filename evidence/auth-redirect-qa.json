@@ -1,0 +1,83 @@
+{
+  "project": "alktccwzyyytvrzpwvjj",
+  "staging": "https://nivvo-staging.secret-rhea-8953.chatgpt.site/",
+  "checked_at": "2026-10-26T07:21:23.129Z",
+  "configuration": {
+    "site_url": "https://nivvo-staging.secret-rhea-8953.chatgpt.site/",
+    "redirect_urls": [
+      "https://nivvo-staging.secret-rhea-8953.chatgpt.site/"
+    ],
+    "source": "Authenticated Supabase dashboard"
+  },
+  "checks": [
+    {
+      "name": "Targeted signup requested with live staging callback",
+      "status": "PASS",
+      "user_id": "3c92cc4b-4c20-4661-9c3b-bf863e35d670"
+    },
+    {
+      "name": "Recovery requested for existing QA account with live staging callback",
+      "status": "PASS"
+    }
+  ],
+  "browser_e2e": "PENDING_PRIVATE_SITE_ACCESS",
+  "email_checks": [
+    {
+      "kind": "callback",
+      "message_id": "1a17715d3b0fe610",
+      "type": "signup",
+      "redirect": "https://nivvo-staging.secret-rhea-8953.chatgpt.site/",
+      "pass": true
+    },
+    {
+      "kind": "recovery",
+      "message_id": "1a17715d8a6f3249",
+      "type": "recovery",
+      "redirect": "https://nivvo-staging.secret-rhea-8953.chatgpt.site/",
+      "pass": true
+    }
+  ],
+  "callback_validation": [
+    {
+      "kind": "callback",
+      "status": "PASS",
+      "http_status": 303,
+      "redirect": "https://nivvo-staging.secret-rhea-8953.chatgpt.site/",
+      "authenticated_user_matches": true,
+      "password_changed_and_relogin": false,
+      "checked_at": "2026-10-26T09:32:13.642Z"
+    },
+    {
+      "kind": "recovery",
+      "status": "PASS",
+      "http_status": 303,
+      "redirect": "https://nivvo-staging.secret-rhea-8953.chatgpt.site/",
+      "authenticated_user_matches": true,
+      "password_changed_and_relogin": true,
+      "checked_at": "2026-10-26T09:33:00.376Z"
+    }
+  ],
+  "staging_http": {
+    "status": "PASS",
+    "url": "https://nivvo-staging.secret-rhea-8953.chatgpt.site/",
+    "http_status": 200,
+    "method": "Sites supported service access; no browser identity"
+  },
+  "browser_limit": "Supabase dashboard access was reused and URL configuration saved. Browser access to the owner-private Site still reached its ChatGPT sign-in gate. Secure browser request timed out; fresh browser visit remained at that gate. No authenticated browser E2E completion claimed.",
+  "finished_at": "2026-10-26T09:33:13.703Z",
+  "latest_email_checks": [
+    {
+      "kind": "callback",
+      "message_id": "1a1778c08dda6f52",
+      "redirect": "https://nivvo-staging.secret-rhea-8953.chatgpt.site/",
+      "pass": true
+    },
+    {
+      "kind": "recovery",
+      "message_id": "1a1778c284bccac7",
+      "redirect": "https://nivvo-staging.secret-rhea-8953.chatgpt.site/",
+      "pass": true
+    }
+  ],
+  "configuration_gate": "CLOSED"
+}
