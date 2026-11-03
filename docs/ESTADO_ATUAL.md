@@ -1,4 +1,7 @@
-# NIVVO — estado verificado em 26/10/2026
+# NIVVO — estado atual
+
+Implementação e suítes: evidências de **26/10/2026** preservadas.
+Última retomada do navegador: **03/11/2026**.
 
 Versão mantida: **1.1.0-dev**. Produto, preço e governança não foram alterados.
 
@@ -44,12 +47,22 @@ Versão mantida: **1.1.0-dev**. Produto, preço e governança não foram alterad
   com título “NIVVO · v1.1.0-dev” e formulário próprio do NIVVO: e-mail, senha,
   Entrar, Esqueci minha senha e Criar conta. O bloqueio de acesso privado ao Site
   está encerrado. Evidência textual: `evidence/browser-staging-qa.json`.
-- **PENDENTE / BLOQUEIO DE AMBIENTE:** o pedido seguro de login NIVVO foi
-  interrompido antes de retornar resultado verificável. Em seguida o ambiente
-  de execução informou erro 503 e o controle de navegador ficou indisponível.
-  O estado final da autenticação NIVVO é desconhecido; não inferir falha de
-  credencial nem solicitar novo login sem inspecionar a sessão existente.
-  O E2E autenticado e o checkpoint Phill + Sol continuam pendentes.
+- **BLOCKED — ferramenta de autenticação do navegador (03/11):** retomada
+  conforme `docs/TRILHA_A_PACOTE_4_FRENTES.md` e especificação-base
+  `docs/TRILHA_A_FECHAMENTO_FUNDACAO.md`. O navegador existente não tinha abas;
+  o mesmo navegador abriu o staging publicado, manteve o acesso privado e
+  exibiu o formulário NIVVO, sem restaurar uma sessão autenticada.
+  Foi solicitado somente o login necessário pelo recurso seguro `browserAuth`.
+  A chamada terminou com `timed out awaiting tools/call after 300s`.
+  Uma visita nova no mesmo navegador, antes de qualquer nova solicitação de
+  credenciais, voltou ao formulário NIVVO. Não houve erro funcional do produto
+  reproduzido. O erro 503 pertence à tentativa histórica de 26/10; nesta
+  retomada, o erro observado foi timeout da ferramenta de autenticação.
+  Captura real: `evidence/browser-staging-login-2026-11-03.jpg`.
+  Sequência, limites e ponto de retomada: `evidence/browser-staging-qa.json`.
+  O E2E permanece antes do login concluído; perfil, plano, sessão, sets,
+  feedback, histórico, logout/login, restauração e isolamento no navegador
+  continuam sem execução nesta retomada. O checkpoint Phill + Sol segue pendente.
 - **TESTADO:** `evidence/ui-cloud-qa.json`: 10/10 verificações dos handlers reais
   da interface contra Auth/API reais, incluindo envio interrompido, fila offline,
   recarga, feedback, histórico e troca de conta. DOM simulado; não equivale a E2E
@@ -74,5 +87,9 @@ O provisionador temporário foi encerrado imediatamente e responde Gone.
 Próximo passo: concluir somente o E2E autenticado do staging e então abrir o
 checkpoint Phill + Sol, antes de expansão de escopo ou revisão visual maior.
 Não foram simuladas consultas a especialistas; versão mantida 1.1.0-dev.
-Nesta retomada não houve nova migration, backend, Auth ou repetição das suítes
-anteriores; somente configuração de retorno e validação direcionada.
+Na retomada de 03/11 não houve migration, implementação de Auth, configuração
+de redirects, alteração de backend, repetição das suítes ou deployment.
+Somente inspeção real do navegador, tentativa de login e registro de evidência.
+Retomar pela aba preservada, inspecionando primeiro a sessão antes de solicitar
+outra entrada. Se continuar no formulário, concluir apenas o login necessário
+e seguir com a jornada publicada e a troca de contas prevista na Trilha A.
