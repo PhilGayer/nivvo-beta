@@ -92,7 +92,13 @@ Preservar como histórico válido:
 1. Abrir/recuperar a sessão de navegador existente.
 2. Inspecionar se há sessão NIVVO autenticada válida.
 3. Se houver, continuar dali.
-4. Se não houver, executar somente o login necessário.
+4. Se não houver sessão:
+   - verificar se a conta de teste já existe;
+   - se existir, executar somente o login necessário;
+   - se não existir, usar o fluxo **Criar conta** do próprio staging.
+5. No cadastro, informar nome, e-mail e senha com pelo menos 10 caracteres, confirmar a senha e enviar.
+6. Se o Supabase não devolver sessão imediata, tratar isso como fluxo esperado de confirmação por e-mail: confirmar a conta pelo link recebido e só então entrar.
+7. Não classificar a ausência de sessão imediata após signup como falha do NIVVO sem verificar a confirmação de e-mail.
 
 ### Etapa A2 — Jornada publicada
 Executar o fluxo completo:
