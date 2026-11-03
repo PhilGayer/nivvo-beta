@@ -74,5 +74,5 @@ O provisionador temporário foi encerrado imediatamente e responde Gone.
 Próximo passo: concluir somente o E2E autenticado do staging e então abrir o
 checkpoint Phill + Sol, antes de expansão de escopo ou revisão visual maior.
 Não foram simuladas consultas a especialistas; versão mantida 1.1.0-dev.
-Nesta retomada não houve nova migration, backend, Auth ou repetição das suíítes
+Nesta retomada não houve nova migration, backend, Auth ou repetição das suítes
 anteriores; somente configuração de retorno e validação direcionada.
