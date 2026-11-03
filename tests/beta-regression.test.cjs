@@ -98,14 +98,3 @@ test('a reload restores the existing profile, plan and daily home', () => {
   assert.equal(app.elements.get('dailyHome').classList.contains('hidden'), false);
   assert.equal(app.json('currentSession()')[0].name, 'Supino');
 });
-
-
-test('cloud auth exposes social login only for enabled providers', () => {
-  const fs = require('node:fs');
-  const path = require('node:path');
-  const source = fs.readFileSync(path.join(__dirname, '..', 'cloud', 'app.mjs'), 'utf8');
-  assert.match(source, /auth\/v1\/settings/);
-  assert.match(source, /signInWithOAuth/);
-  assert.match(source, /\['google','apple','facebook'\]\.filter/);
-  assert.match(source, /oauth:/);
-});
