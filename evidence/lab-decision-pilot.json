@@ -1,0 +1,199 @@
+{
+  "mission": "CORE3-QG-NIVVO-20261110-R1",
+  "version": "v1.1.0-dev",
+  "executed_at": "2026-11-10T23:10:16.520Z",
+  "implementation_author": "Sol/Matrix — Work NIVVO; no independent specialist execution",
+  "status": "PASS_LOCAL",
+  "scope": "One synthetic equipment-eligibility decision using the existing shared motor",
+  "browser_e2e": "NOT_TESTED_BY_THIS_SCRIPT",
+  "operational_lab_integration": "NOT_DEPLOYED_BY_THIS_SCRIPT",
+  "sources": {
+    "motor": {
+      "path": "engine/motor.mjs",
+      "sha256": "56482ecd3116957338fb878bfc5655e4a126c15d0123ade103e7e61275aaf695"
+    },
+    "fixture": "tests/helpers/legacy-app.cjs#profile",
+    "qg": {
+      "url": "https://docs.google.com/document/d/1XXsuEYu-8mmndKfCw3GbqklbwOC7Amq07RI1XLmsEfo/edit",
+      "section": 24
+    },
+    "d2": {
+      "library_file_id": "libfile_212a1f7844c88191b294b8f88e926ae4",
+      "sha256": "c5a3cf2b6b5bc9e5c8c44c802e37232a333dc7bb4b02c896251dbfac2eb40841",
+      "reuse": "Provenance, revision, documented reason and review trigger only",
+      "compatibility": "Existing DecisionMemory accepts only plutao/lavanderia; not imported or widened"
+    },
+    "planning": {
+      "url": "https://docs.google.com/document/d/1uK3A8CRvNpRUq8LXP_45SAILiceXLQ-mfuTvEoVbmi4/edit",
+      "source_reply": "doco.7iuXxlivkiV3SVNFnhE8Pg",
+      "reuse": "Situation/objective → alternatives/blockers → decision → result/review"
+    }
+  },
+  "input": {
+    "synthetic": true,
+    "modality": "musculacao",
+    "available_equipment": [
+      "corpo"
+    ]
+  },
+  "objective": "Generate a plan compatible with the equipment declared in this synthetic case",
+  "decision": {
+    "rule": "equipment_required",
+    "condition": {
+      "available": [
+        "corpo"
+      ]
+    },
+    "action": "EXCLUDE_INELIGIBLE_BEFORE_SCORING",
+    "reason": "Equipamento ausente exclui o exercício antes da pontuação.",
+    "discarded_alternative": {
+      "exercise": "Puxada frontal",
+      "required_equipment": [
+        "cabo"
+      ],
+      "eligible": false,
+      "listed_as_excluded_by_motor": true
+    },
+    "unexecuted_alternative": {
+      "action": "review_equipment"
+    },
+    "probability": {
+      "status": "NOT_ESTIMATED",
+      "value": null
+    }
+  },
+  "result": {
+    "generated_days": [
+      {
+        "day": 1,
+        "exercises": [
+          {
+            "key": "afundo_assistido",
+            "name": "Afundo assistido",
+            "required_equipment": [
+              "corpo"
+            ]
+          },
+          {
+            "key": "flexao_de_bracos",
+            "name": "Flexão de braços",
+            "required_equipment": [
+              "corpo"
+            ]
+          },
+          {
+            "key": "dead_bug",
+            "name": "Dead bug",
+            "required_equipment": [
+              "corpo"
+            ]
+          }
+        ]
+      }
+    ],
+    "workout_performed": false,
+    "persisted_to_supabase": false
+  },
+  "review_demonstration": {
+    "trigger": "Declared equipment changes; recompute using the same motor",
+    "changed_equipment": [
+      "corpo",
+      "cabo"
+    ],
+    "candidate_eligible_after_change": true,
+    "candidate_present_after_regeneration": true,
+    "new_generated_days": [
+      {
+        "day": 1,
+        "exercises": [
+          {
+            "key": "afundo_assistido",
+            "name": "Afundo assistido",
+            "required_equipment": [
+              "corpo"
+            ]
+          },
+          {
+            "key": "puxada_frontal",
+            "name": "Puxada frontal",
+            "required_equipment": [
+              "cabo"
+            ]
+          },
+          {
+            "key": "puxada_neutra",
+            "name": "Puxada neutra",
+            "required_equipment": [
+              "cabo"
+            ]
+          },
+          {
+            "key": "remada_sentada",
+            "name": "Remada sentada",
+            "required_equipment": [
+              "cabo"
+            ]
+          },
+          {
+            "key": "dead_bug",
+            "name": "Dead bug",
+            "required_equipment": [
+              "corpo"
+            ]
+          }
+        ]
+      }
+    ],
+    "ttl_seconds": null,
+    "ttl_note": "D2 pilot TTLs are not adopted as NIVVO product rules"
+  },
+  "local_receipt": {
+    "decision_id": "d3a92dad65bd3f954c972e8ebe52102e68bed499ccd8444ba23019843e82a336",
+    "repeated_decision_id": "d3a92dad65bd3f954c972e8ebe52102e68bed499ccd8444ba23019843e82a336",
+    "changed_input_decision_id": "0eeb24cc56c5342c66f1952e15aa68a6ba8bd166bd004f89141f3198c732e283",
+    "identity_scope": "Synthetic local case only; no cross-account or multiwriter guarantee",
+    "observed_stage": "LOCAL_MOTOR_EXECUTION",
+    "d3_status": "Receipt method evaluated; D3 runtime not connected",
+    "operational_actions": [],
+    "private_user_data_exported": false
+  },
+  "limits": [
+    "No live account, session, health report or financial record was read.",
+    "This demonstration does not prove browser E2E, RLS or an actual completed workout.",
+    "No second motor, decision database, cache, cron or global router was created.",
+    "The existing motor_decisions and workout_plans.input_snapshot remain the proposed operational source."
+  ],
+  "validation": {
+    "status": "PASS_LOCAL",
+    "checks": [
+      {
+        "name": "missing cable excludes the candidate in the existing motor",
+        "status": "PASS"
+      },
+      {
+        "name": "every generated exercise uses declared equipment",
+        "status": "PASS"
+      },
+      {
+        "name": "explanation is copied from the actual motor decision",
+        "status": "PASS"
+      },
+      {
+        "name": "same input yields the same plan and local receipt identity",
+        "status": "PASS"
+      },
+      {
+        "name": "changed equipment changes the receipt and regenerates through the same motor",
+        "status": "PASS"
+      },
+      {
+        "name": "export projection excludes synthetic owner/email/health canaries",
+        "status": "PASS"
+      },
+      {
+        "name": "shared motor source remains unchanged",
+        "status": "PASS"
+      }
+    ]
+  }
+}

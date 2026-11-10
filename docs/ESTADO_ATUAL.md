@@ -1,7 +1,7 @@
 # NIVVO — estado atual
 
 Implementação e suítes: evidências de **26/10/2026** preservadas.
-Última retomada do navegador: **03/11/2026**.
+Última retomada do navegador e do estado vivo: **10/11/2026**.
 
 Versão mantida: **1.1.0-dev**. Produto, preço e governança não foram alterados.
 
@@ -47,22 +47,39 @@ Versão mantida: **1.1.0-dev**. Produto, preço e governança não foram alterad
   com título “NIVVO · v1.1.0-dev” e formulário próprio do NIVVO: e-mail, senha,
   Entrar, Esqueci minha senha e Criar conta. O bloqueio de acesso privado ao Site
   está encerrado. Evidência textual: `evidence/browser-staging-qa.json`.
-- **BLOCKED — ferramenta de autenticação do navegador (03/11):** retomada
-  conforme `docs/TRILHA_A_PACOTE_4_FRENTES.md` e especificação-base
-  `docs/TRILHA_A_FECHAMENTO_FUNDACAO.md`. O navegador existente não tinha abas;
-  o mesmo navegador abriu o staging publicado, manteve o acesso privado e
-  exibiu o formulário NIVVO, sem restaurar uma sessão autenticada.
-  Foi solicitado somente o login necessário pelo recurso seguro `browserAuth`.
-  A chamada terminou com `timed out awaiting tools/call after 300s`.
-  Uma visita nova no mesmo navegador, antes de qualquer nova solicitação de
-  credenciais, voltou ao formulário NIVVO. Não houve erro funcional do produto
-  reproduzido. O erro 503 pertence à tentativa histórica de 26/10; nesta
-  retomada, o erro observado foi timeout da ferramenta de autenticação.
-  Captura real: `evidence/browser-staging-login-2026-11-03.jpg`.
-  Sequência, limites e ponto de retomada: `evidence/browser-staging-qa.json`.
-  O E2E permanece antes do login concluído; perfil, plano, sessão, sets,
-  feedback, histórico, logout/login, restauração e isolamento no navegador
-  continuam sem execução nesta retomada. O checkpoint Phill + Sol segue pendente.
+- **HISTÓRICO (03/11):** o pedido seguro de login expirou na ferramenta do
+  navegador; a visita posterior voltou ao formulário NIVVO. Não foi reproduzido
+  defeito de credencial. Captura: `evidence/browser-staging-login-2026-11-03.jpg`.
+  O adendo posterior `docs/TRILHA_A_DESBLOQUEIO_AUTH.md` registra ausência de conta
+  utilizável para Phill e orienta seguir por Criar conta. A antiga tríade citada
+  nesse adendo permanece histórica; não foi reativada.
+- **ATUAL / TESTADO (10/11):** missão `CORE3-QG-NIVVO-20261110-R1` recuperada da
+  seção 24 da Arquitetura do QG, sob SOL-CORE 3.0 por instrução de Phill.
+  GitHub: PR #1 aberto/draft; base pública preservada. Sites: publicação privada
+  versão 1, página NIVVO v1.1.0-dev acessível. Supabase exclusivo estava INACTIVE;
+  uma restauração pela API oficial foi aceita e o projeto voltou a ACTIVE_HEALTHY.
+  Não foi inferida a causa dessa inatividade nem reaplicada a migration.
+- **BLOCKED — cadastro humano no navegador (10/11):** inspecionado primeiro o
+  navegador existente, sem abas abertas. O staging no mesmo navegador exibiu
+  login, sem sessão NIVVO restaurada. Criar conta abriu nome, e-mail, senha e
+  confirmação; o campo de nova senha informa mínimo de 10 caracteres.
+  Nenhum cadastro, senha, confirmação ou login foi submetido nesta retomada.
+  A criação da credencial requer controle do usuário, conforme orientação do
+  navegador. O ponto preservado é o formulário Crie sua conta.
+  Captura: `evidence/browser-staging-signup-2026-11-10.jpg`.
+  Sequência e limites: `evidence/browser-staging-qa.json`.
+  Jornada autenticada, logout/login, restauração e isolamento no navegador
+  continuam pendentes; não há PASS de E2E ou FAIL funcional novo.
+- **TESTADO LOCAL / CORE3:** `scripts/lab-decision-pilot.mjs` usa o motor
+  compartilhado e a fixture existente, sem outro motor ou base. Um caso sintético
+  de equipamento ausente passou em 7 verificações e foi reproduzido em processo
+  novo com a mesma identidade de decisão. Puxada frontal foi excluída por falta
+  de cabo; o resultado gerado foi Afundo assistido, Flexão de braços e Dead bug.
+  O motivo vem da decisão real do motor; marcadores sintéticos de proprietário,
+  e-mail e saúde não aparecem no recibo exportado. Resultado de geração local
+  não é sessão de treino executada, persistência cloud ou prova de RLS.
+  Evidência: `evidence/lab-decision-pilot.json`. Integração no Lab publicado
+  permanece condicionada ao E2E.
 - **TESTADO:** `evidence/ui-cloud-qa.json`: 10/10 verificações dos handlers reais
   da interface contra Auth/API reais, incluindo envio interrompido, fila offline,
   recarga, feedback, histórico e troca de conta. DOM simulado; não equivale a E2E
@@ -84,12 +101,24 @@ Comandos: `npm ci`, `npm test`, `npm run build`; testes reais em
 As contas QA foram criadas pela API oficial de Auth, nunca por INSERT em auth.users.
 O provisionador temporário foi encerrado imediatamente e responde Gone.
 
-Próximo passo: concluir somente o E2E autenticado do staging e então abrir o
-checkpoint Phill + Sol, antes de expansão de escopo ou revisão visual maior.
-Não foram simuladas consultas a especialistas; versão mantida 1.1.0-dev.
-Na retomada de 03/11 não houve migration, implementação de Auth, configuração
-de redirects, alteração de backend, repetição das suítes ou deployment.
-Somente inspeção real do navegador, tentativa de login e registro de evidência.
-Retomar pela aba preservada, inspecionando primeiro a sessão antes de solicitar
-outra entrada. Se continuar no formulário, concluir apenas o login necessário
-e seguir com a jornada publicada e a troca de contas prevista na Trilha A.
+Reuso avaliado para Enciclopédia D2, fluxo de Planejamento e recibos D3:
+
+- `workout_plans.input_snapshot` e `motor_decisions` já são as fontes do Lab.
+  Reutilizar apontador/revisão, motivo documentado, alternativa e gatilho de
+  revisão. O D2 recuperado aceita somente Plutão/lavanderia: não foi importado,
+  copiado nem ampliado para armazenar dados NIVVO. Seus TTLs experimentais não
+  foram adotados como regra de treino.
+- O fluxo situação/objetivo → alternativas/bloqueios → decisão → resultado foi
+  demonstrado no caso sintético. Revisão por mudança de equipamento/fonte é
+  proposta de validade; não foi instalada uma política automática nova.
+- IDs de pedido/escrita, revision e outbox já existentes são o ponto de partida
+  para recibos. O piloto emite evidência local; não instala D3, fila ou cron nem
+  prova entrega automática entre chats. Dados privados continuam no domínio NIVVO.
+
+Próximo passo: concluir cadastro/confirmar e-mail na aba preparada e inspecionar
+a sessão antes de pedir outra entrada; então executar o E2E completo com troca
+de contas. Após PASS, checkpoint Phill + Sol e escolha da integração mínima no
+Laboratório. Nenhuma especialista foi apresentada como executora independente.
+Na retomada de 10/11, somente a restauração do projeto inativo e a prova local
+foram executadas: sem migration, reconstrução de Auth/RLS, alteração de redirects,
+mudança do motor, suítes históricas repetidas ou deployment. Versão 1.1.0-dev.

@@ -2,109 +2,158 @@
   "project": "alktccwzyyytvrzpwvjj",
   "staging": "https://nivvo-staging.secret-rhea-8953.chatgpt.site/",
   "version": "v1.1.0-dev",
-  "instruction": "docs/TRILHA_A_PACOTE_4_FRENTES.md",
-  "specification": "docs/TRILHA_A_FECHAMENTO_FUNDACAO.md",
-  "observed_on": "2026-11-03",
-  "last_observation_at": "2026-11-03T20:40:32.273Z",
+  "mission": "CORE3-QG-NIVVO-20261110-R1",
+  "observed_on": "2026-11-10",
+  "recorded_at": "2026-11-10T23:12:13.726991+00:00",
+  "last_browser_observation_at": "2026-11-10T23:05:27.265Z",
   "timezone": "America/Sao_Paulo",
-  "source": "Actual Cloud Browser accessibility, DOM and screenshot observations; published staging",
+  "source": "Actual Cloud Browser accessibility, DOM and screenshot observations; live connector state",
   "status": "BLOCKED",
-  "classification_reason": "Secure browser authentication tool timed out. No reproducible NIVVO functional defect was observed.",
+  "classification_reason": "An authenticated NIVVO browser session is absent. Signup is prepared and requires user control for creation of a new credential. No new browserAuth request was issued.",
   "private_site_access": "PASS",
+  "live_state": {
+    "mission": "CORE3-QG-NIVVO-20261110-R1",
+    "qg_document": "https://docs.google.com/document/d/1XXsuEYu-8mmndKfCw3GbqklbwOC7Amq07RI1XLmsEfo/edit",
+    "qg_section": 24,
+    "qg_revision_read": "AHj4eMTRgzQ5KPjOTjPqWt_mSp9Gu19JwtfYsDsS_dvKMK7zdVx36rT4QifI32Q913HhKC2SOti3OXSAGKErkJCOVwreJvFTG763m5CgRcE",
+    "github": {
+      "repository": "PhilGayer/nivvo-beta",
+      "branch": "work/nivvo-v1.1-reentry",
+      "head_checked": "1e9efba65d85a27e02232dcc2006b3c998d25ab9",
+      "draft": true,
+      "public_base": "727457617c6bb80cd8f43d17acd2573854566316"
+    },
+    "supabase": {
+      "project_id": "alktccwzyyytvrzpwvjj",
+      "status_before": "INACTIVE",
+      "restoration": "Official restore_project returned success; one request",
+      "intermediate_statuses": [
+        "COMING_UP",
+        "RESTORING"
+      ],
+      "status_after": "ACTIVE_HEALTHY",
+      "cause_of_inactivity": "NOT_ESTABLISHED"
+    },
+    "staging": {
+      "id": "appgprj_6adb3229c3348191b447f632682654e8",
+      "status": "active",
+      "url": "https://nivvo-staging.secret-rhea-8953.chatgpt.site",
+      "version": 1,
+      "access_mode": "custom"
+    }
+  },
   "page": {
     "title": "NIVVO · v1.1.0-dev",
     "url": "https://nivvo-staging.secret-rhea-8953.chatgpt.site/",
-    "heading": "Entre para continuar",
+    "heading": "Crie sua conta",
     "visible_controls": [
+      "Como quer ser chamado?",
       "E-mail",
-      "Senha",
-      "Entrar",
-      "Esqueci minha senha",
-      "Criar conta"
-    ]
+      "Senha · pelo menos 10 caracteres",
+      "Confirme a senha",
+      "Criar minha conta",
+      "Já tenho conta"
+    ],
+    "password_minlength": "10"
   },
   "steps": [
     {
-      "stage": "A1 — resume",
-      "action": "Inspect existing browser inventory before opening or requesting credentials",
-      "result": "Existing Chrome browser 1 had no open tabs; reused the same browser.",
-      "error": null,
-      "responsible_layer": "browser lifecycle"
+      "stage": "Resume",
+      "action": "Inspect existing Chrome session before requesting credentials",
+      "result": "Existing browser 1 had no tabs. Reused that browser and opened the published staging.",
+      "responsible_layer": "browser lifecycle",
+      "error": null
     },
     {
-      "stage": "A1 — session inspection",
-      "action": "Open published staging in the same existing browser",
-      "result": "Private Site gate passed. NIVVO v1.1.0-dev displayed its login form; an authenticated NIVVO session was not restored.",
-      "error": null,
-      "responsible_layer": "published page observation"
+      "stage": "Session inspection",
+      "action": "Inspect the visible published page",
+      "result": "NIVVO v1.1.0-dev displayed login; no authenticated NIVVO session was restored. Private Site access remained valid.",
+      "responsible_layer": "published frontend observation",
+      "error": null
     },
     {
-      "stage": "A1 — necessary login",
-      "action": "One secure browserAuth request for the visible email/password login form",
-      "result": "No completed tool result; authentication attempt outcome unknown.",
-      "error": "tool call failed for cua_repl/js: timed out awaiting tools/call after 300s",
-      "responsible_layer": "Cloud Browser secure authentication tool"
+      "stage": "Canonical Auth sub-block",
+      "action": "Read docs/TRILHA_A_DESBLOQUEIO_AUTH.md at the current branch head",
+      "result": "The 03/11 addendum records no usable NIVVO account for the user and directs the signup flow. This is historical account context, not an assertion that auth.users is empty.",
+      "responsible_layer": "documentary continuity",
+      "error": null
     },
     {
-      "stage": "A1 — post-timeout verification",
-      "action": "Open a fresh staging page in the same browser before any repeated credential request",
-      "result": "The published page still displayed Entre para continuar. No authenticated NIVVO session was visibly restored.",
+      "stage": "Signup form",
+      "action": "Click Criar conta and inspect fields without entering credentials",
+      "result": "Name, email, password and confirmation visible. Password input minlength=10 and autocomplete=new-password.",
+      "responsible_layer": "published frontend observation",
       "error": null,
-      "responsible_layer": "browser verification",
-      "screenshot": "evidence/browser-staging-login-2026-11-03.jpg"
+      "screenshot": "evidence/browser-staging-signup-2026-11-10.jpg"
+    },
+    {
+      "stage": "Infrastructure recovery",
+      "action": "Restore the exclusive inactive NIVVO project once through the official connector",
+      "result": "Project returned ACTIVE_HEALTHY; no migration or Auth/RLS reconstruction.",
+      "responsible_layer": "Supabase project lifecycle",
+      "error": null
     }
   ],
   "nivvo_login": {
-    "method": "Secure browserAuth email/password request",
-    "tool_outcome": "TIMEOUT",
-    "attempt_authentication_result": "UNKNOWN_NOT_VERIFIED",
-    "post_timeout_browser_state": "LOGIN_FORM_NO_AUTHENTICATED_SESSION_RESTORED",
+    "initial_state": "LOGIN_FORM_NO_AUTHENTICATED_SESSION_RESTORED",
+    "signup_submission": "NOT_EXECUTED",
+    "email_confirmation": "NOT_EXECUTED",
+    "new_browser_auth_request": "NOT_ISSUED",
     "credentials_observed_or_logged": false
   },
   "blocker": {
-    "layer": "Cloud Browser secure authentication tool",
-    "kind": "tools/call timeout",
-    "reported_error": "timed out awaiting tools/call after 300s",
-    "current_503_observed": false,
-    "last_verified_page_available": true,
-    "is_product_failure": false
+    "layer": "browser signup / user credential creation",
+    "kind": "MANUAL_SIGNUP_REQUIRED",
+    "current_product_failure_observed": false,
+    "current_503_or_timeout_observed": false,
+    "account_existence": "NOT_RECHECKED; existing QA users are not recreated",
+    "next_required_action": "User completes signup/confirmation or uses an existing NIVVO account in the preserved tab"
   },
   "browser_e2e": "BLOCKED",
   "unexecuted_in_this_continuation": [
-    "completed NIVVO login",
+    "signup submission",
+    "email confirmation",
+    "authenticated login",
     "profile",
     "modality/equipment",
-    "plan generation",
-    "workout session",
+    "persisted plan",
+    "session",
     "sets",
     "feedback",
     "history",
     "logout",
     "new login",
     "cloud restoration",
-    "published-browser account isolation"
+    "browser account isolation"
   ],
   "screenshots": [
     {
-      "path": "evidence/browser-staging-login-2026-11-03.jpg",
-      "captured_at": "2026-11-03T20:40:32.273Z",
-      "sha256": "4d80bb9e96f103cf3b88b639d482cd183514c38b0c5a5504d6feccb5d58944e0",
-      "proves": "Published NIVVO v1.1.0-dev login screen after tool timeout; does not prove authenticated E2E."
+      "path": "evidence/browser-staging-signup-2026-11-10.jpg",
+      "captured_at": "2026-11-10T23:05:27.265Z",
+      "sha256": "0c3185ef572a4252d36e31092640968341aabf1ddad298899279ffa16f9ba6ed",
+      "proves": "Published signup form only; credentials and signup result not observed."
     }
   ],
-  "limits": [
-    "No credential rejection or other NIVVO functional error was observed.",
-    "The exact cause inside the secure authentication tool was not exposed.",
-    "No authenticated profile, persisted journey or account isolation was verified in this browser continuation.",
-    "Historical HTTP/API, RLS and simulated DOM checks were preserved without rerunning or relabeling them as browser E2E."
-  ],
+  "independent_local_demonstration": {
+    "path": "evidence/lab-decision-pilot.json",
+    "status": "PASS_LOCAL",
+    "scope": "One synthetic equipment decision from the existing shared motor; seven checks plus a fresh-process replay",
+    "not_browser_e2e": true,
+    "not_operational_d2_d3_integration": true
+  },
   "resume": [
-    "Preserve the existing staging tab. Inspect its current session before asking for any further login.",
-    "If still unauthenticated, complete only the necessary NIVVO login through the supported secure or manual handoff.",
-    "Run the complete published vertical journey, logout/new login/restoration and account switch isolation.",
-    "Record PASS and open Phill + Sol checkpoint only after all required browser evidence exists."
+    "Preserve the signup tab and inspect its state after user takeover.",
+    "Complete only the necessary signup/confirmation/login, then the published vertical journey.",
+    "Verify logout/new login/restoration and account isolation in the browser.",
+    "Keep operational Lab integration and checkpoint conditional on the required E2E evidence."
   ],
-  "changes_in_this_continuation": "Evidence and current-state documentation only; no product code, migration, Auth implementation, RLS, redirects, backend, completed suites, deployment or version promotion.",
+  "limits": [
+    "No live user profile or health data was exported to the QG or the local pilot.",
+    "No signup email was requested or confirmed in this continuation.",
+    "Historical regression/Auth/RLS/RPC and simulated DOM suites were preserved without rerunning.",
+    "D2 package verified by SHA-256; its domain-specific cache was not imported or widened.",
+    "No product version promotion or deployment."
+  ],
   "historical_observations": [
     {
       "project": "alktccwzyyytvrzpwvjj",
@@ -151,6 +200,114 @@
         "Stop for Phill + Sol checkpoint only after required checks pass."
       ],
       "changes_in_this_continuation": "Documentation and evidence only; no migration, account creation, Auth implementation, deployment, version promotion or repeated completed test suites."
+    },
+    {
+      "project": "alktccwzyyytvrzpwvjj",
+      "staging": "https://nivvo-staging.secret-rhea-8953.chatgpt.site/",
+      "version": "v1.1.0-dev",
+      "instruction": "docs/TRILHA_A_PACOTE_4_FRENTES.md",
+      "specification": "docs/TRILHA_A_FECHAMENTO_FUNDACAO.md",
+      "observed_on": "2026-11-03",
+      "last_observation_at": "2026-11-03T20:40:32.273Z",
+      "timezone": "America/Sao_Paulo",
+      "source": "Actual Cloud Browser accessibility, DOM and screenshot observations; published staging",
+      "status": "BLOCKED",
+      "classification_reason": "Secure browser authentication tool timed out. No reproducible NIVVO functional defect was observed.",
+      "private_site_access": "PASS",
+      "page": {
+        "title": "NIVVO · v1.1.0-dev",
+        "url": "https://nivvo-staging.secret-rhea-8953.chatgpt.site/",
+        "heading": "Entre para continuar",
+        "visible_controls": [
+          "E-mail",
+          "Senha",
+          "Entrar",
+          "Esqueci minha senha",
+          "Criar conta"
+        ]
+      },
+      "steps": [
+        {
+          "stage": "A1 — resume",
+          "action": "Inspect existing browser inventory before opening or requesting credentials",
+          "result": "Existing Chrome browser 1 had no open tabs; reused the same browser.",
+          "error": null,
+          "responsible_layer": "browser lifecycle"
+        },
+        {
+          "stage": "A1 — session inspection",
+          "action": "Open published staging in the same existing browser",
+          "result": "Private Site gate passed. NIVVO v1.1.0-dev displayed its login form; an authenticated NIVVO session was not restored.",
+          "error": null,
+          "responsible_layer": "published page observation"
+        },
+        {
+          "stage": "A1 — necessary login",
+          "action": "One secure browserAuth request for the visible email/password login form",
+          "result": "No completed tool result; authentication attempt outcome unknown.",
+          "error": "tool call failed for cua_repl/js: timed out awaiting tools/call after 300s",
+          "responsible_layer": "Cloud Browser secure authentication tool"
+        },
+        {
+          "stage": "A1 — post-timeout verification",
+          "action": "Open a fresh staging page in the same browser before any repeated credential request",
+          "result": "The published page still displayed Entre para continuar. No authenticated NIVVO session was visibly restored.",
+          "error": null,
+          "responsible_layer": "browser verification",
+          "screenshot": "evidence/browser-staging-login-2026-11-03.jpg"
+        }
+      ],
+      "nivvo_login": {
+        "method": "Secure browserAuth email/password request",
+        "tool_outcome": "TIMEOUT",
+        "attempt_authentication_result": "UNKNOWN_NOT_VERIFIED",
+        "post_timeout_browser_state": "LOGIN_FORM_NO_AUTHENTICATED_SESSION_RESTORED",
+        "credentials_observed_or_logged": false
+      },
+      "blocker": {
+        "layer": "Cloud Browser secure authentication tool",
+        "kind": "tools/call timeout",
+        "reported_error": "timed out awaiting tools/call after 300s",
+        "current_503_observed": false,
+        "last_verified_page_available": true,
+        "is_product_failure": false
+      },
+      "browser_e2e": "BLOCKED",
+      "unexecuted_in_this_continuation": [
+        "completed NIVVO login",
+        "profile",
+        "modality/equipment",
+        "plan generation",
+        "workout session",
+        "sets",
+        "feedback",
+        "history",
+        "logout",
+        "new login",
+        "cloud restoration",
+        "published-browser account isolation"
+      ],
+      "screenshots": [
+        {
+          "path": "evidence/browser-staging-login-2026-11-03.jpg",
+          "captured_at": "2026-11-03T20:40:32.273Z",
+          "sha256": "4d80bb9e96f103cf3b88b639d482cd183514c38b0c5a5504d6feccb5d58944e0",
+          "proves": "Published NIVVO v1.1.0-dev login screen after tool timeout; does not prove authenticated E2E."
+        }
+      ],
+      "limits": [
+        "No credential rejection or other NIVVO functional error was observed.",
+        "The exact cause inside the secure authentication tool was not exposed.",
+        "No authenticated profile, persisted journey or account isolation was verified in this browser continuation.",
+        "Historical HTTP/API, RLS and simulated DOM checks were preserved without rerunning or relabeling them as browser E2E."
+      ],
+      "resume": [
+        "Preserve the existing staging tab. Inspect its current session before asking for any further login.",
+        "If still unauthenticated, complete only the necessary NIVVO login through the supported secure or manual handoff.",
+        "Run the complete published vertical journey, logout/new login/restoration and account switch isolation.",
+        "Record PASS and open Phill + Sol checkpoint only after all required browser evidence exists."
+      ],
+      "changes_in_this_continuation": "Evidence and current-state documentation only; no product code, migration, Auth implementation, RLS, redirects, backend, completed suites, deployment or version promotion."
     }
   ]
 }
