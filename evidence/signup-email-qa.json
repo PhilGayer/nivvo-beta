@@ -1,0 +1,1 @@
+{"test":"Public signup, email delivery, official verification, password login, signup trigger","at":"2026-10-26T05:00:21.317Z","user_id":"aea39b94-455a-4905-8d5b-18a2a450a220","status":"PASS","profileCreated":true,"initialTier":"free","emailDelivered":true,"redirectConfigured":"http://localhost:3000"}

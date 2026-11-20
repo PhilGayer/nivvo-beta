@@ -1,0 +1,50 @@
+{
+  "kind": "Real cloud + frontend handlers, simulated DOM",
+  "version": "1.1.0-dev",
+  "checks": [
+    {
+      "name": "frontend login uses real Supabase Auth",
+      "status": "PASS"
+    },
+    {
+      "name": "frontend profile, equipment and plan saved in cloud",
+      "status": "PASS"
+    },
+    {
+      "name": "Laboratory shows persisted inputs and real rules",
+      "status": "PASS"
+    },
+    {
+      "name": "session starts, sets and user-scoped offline draft are captured",
+      "status": "PASS"
+    },
+    {
+      "name": "network failure keeps outbox and idempotent write for retry",
+      "status": "PASS"
+    },
+    {
+      "name": "reload restores persistent Auth, pending outbox and active session",
+      "status": "PASS"
+    },
+    {
+      "name": "frontend feedback persists completion and history",
+      "status": "PASS"
+    },
+    {
+      "name": "logout and a different login do not leak prior account data",
+      "status": "PASS"
+    },
+    {
+      "name": "subsequent frontend login fully restores cloud history",
+      "status": "PASS"
+    },
+    {
+      "name": "direct cloud read proves profile, plan, session, sets and feedback",
+      "status": "PASS"
+    }
+  ],
+  "started_at": "2026-10-26T05:11:28.222Z",
+  "finished_at": "2026-10-26T05:12:17.916Z",
+  "passed": 10,
+  "failed": 0
+}

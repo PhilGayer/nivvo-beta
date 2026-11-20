@@ -1,0 +1,218 @@
+{
+  "campaign": "NIVVO — Consolidação e Avanço",
+  "observed_on": "2026-11-20",
+  "version": "1.1.0-dev",
+  "started_at": "2026-11-20T11:51:30.781335+00:00",
+  "baseline": {
+    "head": "f74ed828759226d7c00fbfbceb463d42beb1a4eb",
+    "clean_worktree": true,
+    "node": "v24.22.3",
+    "npm_test": {
+      "passed": 17,
+      "failed": 0
+    },
+    "build": "PASS",
+    "executed_in_this_campaign": true
+  },
+  "reproduction_before_fix": {
+    "command": "node --test tests/cloud-auth.test.cjs",
+    "scope": "Initial six synthetic DOM/Auth boundary cases running the unmodified frontend",
+    "passed": 1,
+    "failed": 5,
+    "not_browser_or_live_rls": true
+  },
+  "commands": [
+    {
+      "command": "npm test",
+      "exit_code": 0,
+      "status": "PASS",
+      "executed_at": "2026-11-20T11:55:46.343720+00:00",
+      "tests": 33,
+      "pass": 33,
+      "fail": 0,
+      "skipped": 0,
+      "checks": [
+        {
+          "name": "existing strength motor generates six distinct exercises",
+          "status": "PASS"
+        },
+        {
+          "name": "compact onboarding generates and persists the selected week",
+          "status": "PASS"
+        },
+        {
+          "name": "compact onboarding labels the final action as review",
+          "status": "PASS"
+        },
+        {
+          "name": "sessions retain three recorded sets, feedback and history after reload",
+          "status": "PASS"
+        },
+        {
+          "name": "heavy session does not advise increasing the load",
+          "status": "PASS"
+        },
+        {
+          "name": "progression compares the same exercise with its previous performance",
+          "status": "PASS"
+        },
+        {
+          "name": "reported discomfort takes priority over progression",
+          "status": "PASS"
+        },
+        {
+          "name": "exercise replacement preserves group and avoids duplicates",
+          "status": "PASS"
+        },
+        {
+          "name": "corrupt legacy history has a readable empty fallback",
+          "status": "PASS"
+        },
+        {
+          "name": "a reload restores the existing profile, plan and daily home",
+          "status": "PASS"
+        },
+        {
+          "name": "account change replaces the loaded identity and never shows the preceding account",
+          "status": "PASS"
+        },
+        {
+          "name": "same-account sign-in event preserves an unsaved profile",
+          "status": "PASS"
+        },
+        {
+          "name": "expired session clears the private screen and preserves the owner-scoped retry queue",
+          "status": "PASS"
+        },
+        {
+          "name": "failed sign-out never reports successful logout while Auth retains the session",
+          "status": "PASS"
+        },
+        {
+          "name": "late response from A cannot replace B after an account change during a request",
+          "status": "PASS"
+        },
+        {
+          "name": "server rejection of an ended session returns to login without deleting local drafts",
+          "status": "PASS"
+        },
+        {
+          "name": "sign-out error is reported even when the SDK has already removed the local session",
+          "status": "PASS"
+        },
+        {
+          "name": "late network rejection from A cannot report an error in B",
+          "status": "PASS"
+        },
+        {
+          "name": "a pending sign-in notification cannot resurrect an account after sign-out",
+          "status": "PASS"
+        },
+        {
+          "name": "a changed Auth identity without its notification cannot authorize A operations with B credentials",
+          "status": "PASS"
+        },
+        {
+          "name": "Auth rejection preserves sets, completion feedback and write identity for the same account to retry",
+          "status": "PASS"
+        },
+        {
+          "name": "in-flight A write cannot remove the retry queues or display private data after B signs in",
+          "status": "PASS"
+        },
+        {
+          "name": "successful logout clears the private screen and retains only the owner-scoped retry data",
+          "status": "PASS"
+        },
+        {
+          "name": "password recovery displays its own screen with previous private data cleared",
+          "status": "PASS"
+        },
+        {
+          "name": "sign-out cancels a pending password-recovery screen",
+          "status": "PASS"
+        },
+        {
+          "name": "an incomplete profile opens onboarding and missing consent cannot submit training data",
+          "status": "PASS"
+        },
+        {
+          "name": "bodyweight-only fixture excludes cable, machine, barbell, dumbbell and bench requirements",
+          "status": "PASS"
+        },
+        {
+          "name": "single leg press does not unlock other machines or Smith",
+          "status": "PASS"
+        },
+        {
+          "name": "bench and dumbbells both required for dumbbell bench press",
+          "status": "PASS"
+        },
+        {
+          "name": "shared strength motor retains baseline output with complete equipment",
+          "status": "PASS"
+        },
+        {
+          "name": "shared progression prioritizes discomfort and heavy feedback",
+          "status": "PASS"
+        },
+        {
+          "name": "swaps also enforce equipment eligibility and no duplicates",
+          "status": "PASS"
+        },
+        {
+          "name": "offline outbox is isolated by user and preserves idempotent write ids",
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "command": "npm run build",
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "status": "PASS"
+    }
+  ],
+  "historical_not_rerun": [
+    "46/46 real Auth/RLS/RPC checks",
+    "10/10 simulated-DOM handlers against real cloud",
+    "signup/confirmation/password-recovery API evidence"
+  ],
+  "limits": [
+    "Synthetic DOM/Auth/HTTP test doubles are not real-browser E2E or Supabase RLS proof.",
+    "No live account credential or personal training data used.",
+    "No staging deployment or public release performed.",
+    "Mobile device usability, full published journey and browser account isolation remain pending."
+  ],
+  "source_sha256": {
+    "cloud/app.mjs": "74c44d3efeacd79b4e3127067db832dbfe7a42cfa209a525ffa62d70c825aae7",
+    "cloud/outbox.mjs": "9fdb929cb284adbb415ecd80d3497f1e703be281b96319596bbca31cddad61c4",
+    "engine/motor.mjs": "56482ecd3116957338fb878bfc5655e4a126c15d0123ade103e7e61275aaf695",
+    "package-lock.json": "9f5e781811559c257d66b41e7fff64317151475c36f1411c40af3f21188a82aa",
+    "tests/cloud-auth.test.cjs": "019951dc8a24feaff6b17d1e3a9b564d792013528c394d649630c3e9e4eca460",
+    "tests/helpers/cloud-app.cjs": "accc35380ee9e0099de3d526e3c93f5f72fd594f904f5c43f6016ae89f03fc9f"
+  },
+  "finished_at": "2026-11-20T11:55:46.344536+00:00",
+  "status": "PASS_LOCAL",
+  "intermediate_verification": {
+    "passed": 32,
+    "failed": 1,
+    "cause": "New logout test asserted status at the intermediate SIGNED_OUT event; wait updated to observe the completed logout operation. No product-code change for this test timing issue."
+  },
+  "official_docs_checked": [
+    "https://supabase.com/changelog.md",
+    "https://supabase.com/docs/reference/javascript/auth-onauthstatechange",
+    "https://supabase.com/docs/reference/javascript/auth-signout"
+  ],
+  "pinned_sdk_note": "Installed auth-js removes the local session in several signOut error paths; tests cover error returns both with and without SIGNED_OUT. No claim of a live retained token or database leak is made.",
+  "invariant_check": {
+    "command": "git diff --exit-code f74ed828759226d7c00fbfbceb463d42beb1a4eb -- engine cloud/config.mjs cloud/outbox.mjs supabase index.html package.json package-lock.json",
+    "exit_code": 0,
+    "status": "PASS",
+    "meaning": "Shared motor, backend, migration, public beta entry point, cloud config, existing outbox and dependencies unchanged."
+  }
+}
