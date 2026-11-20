@@ -1,7 +1,7 @@
 # NIVVO — estado atual
 
 Implementação e suítes: evidências de **26/10/2026** preservadas.
-Última retomada do navegador e do estado vivo: **10/11/2026**.
+Última retomada do navegador e do estado vivo: **20/11/2026**.
 
 Versão mantida: **1.1.0-dev**. Produto, preço e governança não foram alterados.
 
@@ -25,7 +25,7 @@ Versão mantida: **1.1.0-dev**. Produto, preço e governança não foram alterad
 - **IMPLEMENTADO:** rascunho/fila local por usuário, retry com write ID estável,
   revisão otimista e comparação explícita ao encontrar versões divergentes.
   Supabase é a fonte principal; não há importação automática do beta antigo.
-- **TESTADO:** `npm test`: 17/17, incluindo os dez testes anteriores.
+- **HISTÓRICO / TESTADO (26/10):** `npm test`: 17/17, incluindo os dez testes anteriores.
 - **TESTADO:** `evidence/cloud-qa.json`: 46 verificações reais, Auth oficial com
   dois usuários, trigger Free, quatro RPCs, idempotência, conflito de revisão,
   isolamento nos dois sentidos, escrita indevida, consentimento e restauração.
@@ -53,13 +53,13 @@ Versão mantida: **1.1.0-dev**. Produto, preço e governança não foram alterad
   O adendo posterior `docs/TRILHA_A_DESBLOQUEIO_AUTH.md` registra ausência de conta
   utilizável para Phill e orienta seguir por Criar conta. A antiga tríade citada
   nesse adendo permanece histórica; não foi reativada.
-- **ATUAL / TESTADO (10/11):** missão `CORE3-QG-NIVVO-20261110-R1` recuperada da
+- **HISTÓRICO / TESTADO (10/11):** missão `CORE3-QG-NIVVO-20261110-R1` recuperada da
   seção 24 da Arquitetura do QG, sob SOL-CORE 3.0 por instrução de Phill.
   GitHub: PR #1 aberto/draft; base pública preservada. Sites: publicação privada
   versão 1, página NIVVO v1.1.0-dev acessível. Supabase exclusivo estava INACTIVE;
   uma restauração pela API oficial foi aceita e o projeto voltou a ACTIVE_HEALTHY.
   Não foi inferida a causa dessa inatividade nem reaplicada a migration.
-- **BLOCKED — cadastro humano no navegador (10/11):** inspecionado primeiro o
+- **HISTÓRICO / BLOCKED — cadastro humano no navegador (10/11):** inspecionado primeiro o
   navegador existente, sem abas abertas. O staging no mesmo navegador exibiu
   login, sem sessão NIVVO restaurada. Criar conta abriu nome, e-mail, senha e
   confirmação; o campo de nova senha informa mínimo de 10 caracteres.
@@ -115,10 +115,48 @@ Reuso avaliado para Enciclopédia D2, fluxo de Planejamento e recibos D3:
   para recibos. O piloto emite evidência local; não instala D3, fila ou cron nem
   prova entrega automática entre chats. Dados privados continuam no domínio NIVVO.
 
-Próximo passo: concluir cadastro/confirmar e-mail na aba preparada e inspecionar
-a sessão antes de pedir outra entrada; então executar o E2E completo com troca
-de contas. Após PASS, checkpoint Phill + Sol e escolha da integração mínima no
-Laboratório. Nenhuma especialista foi apresentada como executora independente.
-Na retomada de 10/11, somente a restauração do projeto inativo e a prova local
-foram executadas: sem migration, reconstrução de Auth/RLS, alteração de redirects,
-mudança do motor, suítes históricas repetidas ou deployment. Versão 1.1.0-dev.
+Campanha de Consolidação e Avanço — 20/11/2026:
+
+- **ATUAL / VERIFICADO:** reentrada em árvore limpa no commit
+  `f74ed828759226d7c00fbfbceb463d42beb1a4eb`; GitHub confirmou PR #1 aberto/draft,
+  mesma branch e base pública inalterada. A linha de base desta campanha foi
+  executada: Node v24.22.3, 17/17 testes e build PASS antes de editar código.
+- **ATUAL / VERIFICADO:** Supabase novamente encontrado INACTIVE. Um pedido
+  oficial de restore foi aceito; depois COMING_UP, ACTIVE_HEALTHY e consulta
+  agregada bem-sucedida. Causa da inatividade não estabelecida. Sem migration,
+  reconstrução de Auth/RLS, alteração de redirects ou credenciais recuperadas.
+- **ATUAL / BLOCKED:** navegador existente sem abas; staging privado abriu no
+  login sem sessão NIVVO. A consulta agregada mostrou quatro contas existentes,
+  nenhuma criada/confirmada desde o handoff de 10/11; não foram lidos nomes,
+  e-mails ou credenciais. Criar conta e seus campos obrigatórios foram
+  inspecionados novamente, sem preenchimento ou envio. Captura real:
+  `evidence/browser-staging-signup-2026-11-20.jpg`.
+- **FAIL FUNCIONAL REPRODUZIDO / CORRIGIDO LOCAL:** os handlers da interface em
+  DOM isolado ignoravam mudança de identidade, mantinham tela privada diante de
+  sessão expirada e ignoravam erro no retorno de logout. A correção limita-se a
+  `cloud/app.mjs`: troca limpa da conta, requisições vinculadas à identidade e
+  época, descarte de respostas/rejeições antigas, retorno ao login em 401 e
+  preservação de rascunho/fila/feedback/write ID para retry pelo proprietário.
+  Erro de logout deixou de ser apresentado como sucesso. O SDK instalado já
+  remove a sessão local em vários desses erros; não foi presumido o contrário.
+- **TESTADO AGORA:** regressão 33/33 (17 anteriores + 16 novos), build PASS.
+  Execução em `evidence/consolidation-qa.json`. A suíte nova usa o frontend de produção com fronteiras
+  sintéticas de DOM/Auth/HTTP; não duplica o motor nem comprova isolamento do
+  Supabase ou E2E publicado. O teste inicial sem correção teve 1/6 PASS e 5/6
+  FAIL; os casos foram expandidos para cobrir escrita em andamento, respostas
+  tardias, recuperação, dados incompletos e consentimento obrigatório.
+- **PENDENTE DE IMPLANTAÇÃO / ACEITE:** Site continua privado, ativo, versão salva
+  1, fonte `ddcc76c987275ac765c3a876a159d4c9b9114767`. As correções desta campanha
+  ainda não estão no staging. A instrução de não publicar sem autorização foi
+  preservada. Não há PASS da jornada completa, mobile ou isolamento no navegador.
+  As suítes históricas de Auth/RLS/RPC/cloud foram preservadas sem repetição.
+- **PREPARADO / NÃO LIBERADO:** `docs/PILOTO_CONTROLADO.md` reúne roteiro
+  reproduzível, critérios de entrada, coleta mínima, interrupção e reversão.
+  Isso não equivale a piloto iniciado ou funcionalmente aprovado. A decisão
+  atual é não liberar participantes antes de E2E, mobile e checkpoint Phill + Sol.
+
+Próximo: Phill conclui cadastro/confirmacão ou entrada da conta QA na aba
+preservada; inspecionar a sessão resultante antes de outra solicitação. A correção
+revisável no PR aguarda autorização para atualizar somente o staging privado.
+Depois, executar a jornada inteira com duas contas e mobile. Após PASS, checkpoint
+Phill + Sol e decisão de liberação controlada. Sem expansão automática de escopo.

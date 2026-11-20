@@ -4,19 +4,32 @@ import { Outbox } from './outbox.mjs';
 const sb=createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 const $=id=>document.getElementById(id);
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let user=null,data=null,outbox=null,view='login',activeSession=null,recovery=false,busy=false,authEpoch=0;
+let user=null,data=null,outbox=null,view='login',activeSession=null,recovery=false,busy=false,authEpoch=0,authEventId=0;
 let profileDraft=null,trainingDraft=null;
 const labels={corpo:'Peso corporal',halter:'Halteres',barra:'Barras e anilhas',banco:'Banco',cabo:'Polias / cabos',maquina:'Conjunto completo de máquinas',legpress:'Somente Leg press',smith:'Smith',elastico:'Elásticos',colchonete:'Colchonete',esteira:'Esteira / bicicleta'};
 const messages={AUTH_REQUIRED:'Entre novamente para continuar.',REVISION_CONFLICT:'Há uma versão mais recente na nuvem. Suas séries continuam neste aparelho. Reabra o treino para comparar antes de reenviar.',SESSION_COMPLETED:'Esta sessão já foi concluída. O histórico está preservado.',ACTIVE_SESSION:'Conclua a sessão em andamento antes de alterar o perfil ou gerar outro plano.',RECORD_A_SET:'Registre ao menos uma série com repetições antes de concluir.',TRAINING_CONSENT_REQUIRED:'Confirme o uso dos dados de treino para salvar.',DISCOMFORT_CONSENT_REQUIRED:'Autorize o registro de desconforto ou desmarque a informação.',EXERCISE_NOT_OWNED:'Este exercício não pertence à sessão.',PROFILE_REQUIRED:'Complete o perfil primeiro.',NO_ELIGIBLE_EXERCISES:'Não há exercícios compatíveis. Revise os equipamentos.',Failed_to_fetch:'Sem conexão. Os dados ainda não enviados continuam neste aparelho.'};
 function status(text,error=false){$('cloudStatus').textContent=text;$('cloudStatus').style.color=error?'#fca5a5':'var(--muted)';}
 function errorText(e){return messages[e.message]||(/fetch|network|Failed to send/i.test(e.message)?'Conexão indisponível. O rascunho continua neste aparelho.':e.message==='Invalid login credentials'?'E-mail ou senha inválidos.':e.message==='Email not confirmed'?'Confirme seu e-mail antes de entrar.':e.message);}
-async function api(payload){const {data:{session},error}=await sb.auth.getSession();if(error||!session)throw new Error('AUTH_REQUIRED');const r=await fetch(`${SUPABASE_URL}/functions/v1/nivvo-api`,{method:'POST',headers:{apikey:SUPABASE_PUBLISHABLE_KEY,Authorization:`Bearer ${session.access_token}`,'Content-Type':'application/json'},body:JSON.stringify(payload)});const body=await r.json();if(!r.ok)throw new Error(body.error||'Falha ao salvar.');return body;}
-async function task(fn){if(busy)return;busy=true;const buttons=[...document.querySelectorAll('button[type=submit]')].map(x=>[x,x.disabled]);buttons.forEach(([x])=>x.disabled=true);try{await fn();}catch(e){status(errorText(e),true);}finally{busy=false;buttons.forEach(([x,disabled])=>{if(x.isConnected)x.disabled=disabled;});}}
+class AccountChanged extends Error {}
+function clearAccount(){authEpoch++;authEventId++;busy=false;user=null;data=null;outbox=null;activeSession=null;profileDraft=null;trainingDraft=null;recovery=false;}
+function failed(e){if(e instanceof AccountChanged)return;if(e.message==='AUTH_REQUIRED'){clearAccount();authScreen();}status(errorText(e),true);}
+async function api(payload){
+ const epoch=authEpoch,owner=user?.id;
+ const current=()=>{if(epoch!==authEpoch||owner!==user?.id)throw new AccountChanged();};
+ const {data:{session},error}=await sb.auth.getSession();current();
+ if(error||!session||session.user.id!==owner)throw new Error('AUTH_REQUIRED');
+ try{
+  const r=await fetch(`${SUPABASE_URL}/functions/v1/nivvo-api`,{method:'POST',headers:{apikey:SUPABASE_PUBLISHABLE_KEY,Authorization:`Bearer ${session.access_token}`,'Content-Type':'application/json'},body:JSON.stringify(payload)});
+  current();if(r.status===401)throw new Error('AUTH_REQUIRED');
+  const body=await r.json();current();if(!r.ok)throw new Error(body.error||'Falha ao salvar.');return body;
+ }catch(e){current();throw e;}
+}
+async function task(fn){if(busy)return;const ticket={};busy=ticket;const buttons=[...document.querySelectorAll('button[type=submit]')].map(x=>[x,x.disabled]);buttons.forEach(([x])=>x.disabled=true);try{await fn();}catch(e){failed(e);}finally{if(busy===ticket)busy=false;buttons.forEach(([x,disabled])=>{if(x.isConnected)x.disabled=disabled;});}}
 function field(id,title,type='text',value='',extra=''){return `<div class="field"><label for="${id}">${title}</label><input id="${id}" name="${id}" type="${type}" value="${esc(value)}" ${extra}></div>`;}
 function select(id,title,values,value){return `<div class="field"><label for="${id}">${title}</label><select id="${id}" name="${id}">${values.map(([key,label])=>`<option value="${key}" ${String(key)===String(value)?'selected':''}>${label}</option>`).join('')}</select></div>`;}
 function button(text,action,cls='ghost'){return `<button type="button" class="${cls}" data-action="${action}">${text}</button>`;}
 function screen(title,html){$('cloudRoot').innerHTML=`<section class="card"><h2>${title}</h2>${html}</section>`;window.scrollTo({top:0,behavior:'instant'});}
-function nav(){const n=$('cloudNav');n.classList.toggle('hidden',!user);n.innerHTML=user?button('Hoje','home')+button('Histórico','history')+button('Laboratório','lab')+button('Conta','account')+button('Sair','logout'):'';}
+function nav(){const n=$('cloudNav');const ready=user&&data;n.classList.toggle('hidden',!ready);n.innerHTML=ready?button('Hoje','home')+button('Histórico','history')+button('Laboratório','lab')+button('Conta','account')+button('Sair','logout'):'';}
 function authScreen(mode='login'){
  view=mode;nav();
  if(mode==='recovery'){screen('Crie uma nova senha',`<form id="passwordForm">${field('newPassword','Nova senha','password','','required minlength="10" autocomplete="new-password"')}<button class="primary" type="submit">Salvar nova senha</button></form>`);return;}
@@ -63,16 +76,16 @@ async function save(complete=false,form=null){
  if(complete){const f=new FormData(form);body.feedback={difficulty:f.get('difficulty'),repeat_intent:f.get('repeat_intent'),pain:f.get('pain')==='sim',pain_exercise_id:f.get('pain_exercise_id')||null,consent:f.get('discomfort_consent')==='on'};if(body.feedback.pain&&!body.feedback.consent)throw new Error('DISCOMFORT_CONSENT_REQUIRED');}
  outbox.put(body);
  try{const r=await api(body);outbox.drop(body.write_id);localStorage.removeItem(draftKey());await refresh();if(complete){activeSession=null;trainingDraft=null;home();}else{activeSession=data.workout_sessions.find(s=>s.id===body.session_id);workout();}status(complete?'Treino concluído e salvo na nuvem.':'Séries salvas na nuvem.');}
- catch(e){if(!/fetch|network|Failed to send/i.test(e.message))outbox.drop(body.write_id);else $('cloudRoot').insertAdjacentHTML('beforeend',`<div class="row">${button('Tentar sincronizar','retry')}</div>`);throw e;}
+ catch(e){if(e instanceof AccountChanged||e.message==='AUTH_REQUIRED')throw e;if(!/fetch|network|Failed to send/i.test(e.message))outbox.drop(body.write_id);else $('cloudRoot').insertAdjacentHTML('beforeend',`<div class="row">${button('Tentar sincronizar','retry')}</div>`);throw e;}
 }
 function needSession(){if(!activeSession)throw new Error('SESSION_NOT_FOUND');}
 async function start(){const p=plan();if(!p)throw new Error('PROFILE_REQUIRED');const {id}=await api({action:'start',plan_id:p.id,request_id:crypto.randomUUID()});await refresh();activeSession=data.workout_sessions.find(s=>s.id===id);workout();}
 async function generate(){await api({action:'plan',request_id:crypto.randomUUID()});await refresh();home();}
 async function signedIn(session){
- const epoch=++authEpoch;user=session.user;outbox=new Outbox(localStorage,user.id);nav();status('Recuperando seus dados da nuvem…');if(!await refresh()||epoch!==authEpoch)return;
+ clearAccount();const epoch=authEpoch;user=session.user;outbox=new Outbox(localStorage,user.id);nav();screen('Recuperando sua conta','<p>Carregando seus treinos da nuvem…</p>');status('Recuperando seus dados da nuvem…');if(!await refresh()||epoch!==authEpoch)return;nav();
  const pending=outbox.read();if(pending.length){status('Há séries pendentes neste aparelho. Revise e sincronize para concluir.');home();$('cloudRoot').insertAdjacentHTML('afterbegin',button('Tentar sincronizar','retry','primary'));}else home();
 }
-async function logout(){if(view==='workout')keepDraft();await sb.auth.signOut();authEpoch++;user=null;data=null;outbox=null;activeSession=null;profileDraft=null;trainingDraft=null;authScreen();status('Você saiu da conta.');}
+async function logout(){if(view==='workout')keepDraft();const {error}=await sb.auth.signOut();if(error)throw error;clearAccount();authScreen();status('Você saiu da conta.');}
 
 document.addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(!b)return;const a=b.dataset.action;task(async()=>{
  if(['login','signup','forgot'].includes(a)){authScreen(a);status('');return;}
@@ -110,9 +123,13 @@ window.addEventListener('online',()=>{if(user)status('Conexão retomada. Seus ra
 window.addEventListener('offline',()=>status('Você está offline. As séries em andamento ficam neste aparelho até sincronizar.',true));
 window.addEventListener('pagehide',()=>{if(view==='workout')keepDraft();});
 sb.auth.onAuthStateChange((event,session)=>{
- if(event==='PASSWORD_RECOVERY'){recovery=true;user=session?.user||null;setTimeout(()=>authScreen('recovery'),0);}
- if(event==='SIGNED_OUT'){authEpoch++;user=null;data=null;outbox=null;activeSession=null;trainingDraft=null;profileDraft=null;authScreen();}
- if(event==='SIGNED_IN'&&session&&!user&&!busy&&!recovery)setTimeout(()=>task(()=>signedIn(session)),0);
+ if(event==='PASSWORD_RECOVERY'){clearAccount();recovery=true;user=session?.user||null;const id=authEventId;setTimeout(()=>{if(id===authEventId)authScreen('recovery');},0);}
+ if(event==='SIGNED_OUT'){clearAccount();authScreen();}
+ if(event==='SIGNED_IN'&&session&&session.user.id!==user?.id&&!recovery){
+  if(user){clearAccount();nav();screen('Recuperando sua conta','<p>Carregando seus treinos da nuvem…</p>');}
+  const id=++authEventId;
+  setTimeout(()=>{if(id===authEventId&&session.user.id!==user?.id&&!recovery)signedIn(session).catch(failed);},0);
+ }
 });
 const style=document.createElement('style');style.textContent='button,input,select{min-height:44px}button{cursor:pointer}button:disabled{opacity:.6}input[type=checkbox]{min-height:20px;min-width:20px}#cloudStatus{margin:10px 0;min-height:26px}#cloudNav{margin-bottom:16px}pre{white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere;font-size:12px;max-width:100%}.history-item span{display:block}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #00E6B8;outline-offset:3px}.row{flex-wrap:wrap;gap:10px}';document.head.append(style);
-try{const {data:{session}}=await sb.auth.getSession();if(recovery)authScreen('recovery');else if(session)await signedIn(session);else{authScreen();status('Sua conta, seus treinos, sua evolução.');}}catch(e){authScreen();status(errorText(e),true);}
+try{const {data:{session}}=await sb.auth.getSession();if(recovery)authScreen('recovery');else if(session)await signedIn(session);else{authScreen();status('Sua conta, seus treinos, sua evolução.');}}catch(e){if(!(e instanceof AccountChanged)){clearAccount();authScreen();status(errorText(e),true);}}
